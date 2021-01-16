@@ -1,0 +1,5 @@
+
+enum COFFEE_ROLE {
+    COFFEE_GUEST = 1,
+    COFFEE_MANAGER = 2
+};
