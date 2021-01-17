@@ -30,37 +30,33 @@ ostream &print(ostream &os, const manager &elem) {
     return os;
 }
 
-manager& manager::new_account() {
+manager& manager::new_account(const manager &new_acc, 
+                                bool &existed_in_file) {
     string new_username, new_password;
-    bool duplicate = false;
+    existed_in_file = false;
     
     FILE * dat = fopen("data\\manager_account.dat", "wb");
     long fileSize = ftell(dat);
     long number_accounts = fileSize / (long) sizeof(manager);
     rewind(dat);
-    
-    do {
-        duplicate = false;
-        printf("Username: ");   cin >> new_username;
-        printf("\nPassword: "); cin >> new_password;
 
-        for(long i = 0; i < number_accounts; i++) {
-            fseek(dat, i * (long) sizeof(manager), SEEK_SET);
-            manager compare;
-            fread(&compare, sizeof(manager), 1, dat);
-            if(compare.username == new_username && 
-                compare.password == new_password) {
+    for(long i = 0; i < number_accounts; i++) {
+        fseek(dat, i * (long) sizeof(manager), SEEK_SET);
+        manager compare;
+        fread(&compare, sizeof(manager), 1, dat);
+        if(compare.username == new_acc.username && 
+            compare.password == new_acc.password) {
 
-                duplicate = true;
-            }
+            existed_in_file = true;
         }
-    } while(duplicate);
+    }
+    
+    this->assign(new_acc);
 
-    printf("\nName: "); cin >> name;
-    dob.add();
-
-    fseek(dat, 0, SEEK_END);
-    fwrite(this, sizeof(manager), 1, dat);
+    if(!existed_in_file) {
+        fseek(dat, 0, SEEK_END);
+        fwrite(this, sizeof(manager), 1, dat);
+    }
     
     fclose(dat);
     return *this;

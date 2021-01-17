@@ -62,7 +62,7 @@ public:
     void add_food();
     void access();
     bool sign_in(manager&);
-    manager &new_account();
+    manager &new_account(const manager& , bool & );
 
 private:
     char access_menu() const;
