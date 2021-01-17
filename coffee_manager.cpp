@@ -19,8 +19,8 @@ istream &read(istream &is, manager &elem) {
     printf("Date of birth: dd/mm/yyyy: ");
     is >> elem.dob.day >> elem.dob.month 
         >> elem.dob.year;
-    elem.access_system = true;
-    elem.access_history = true;
+    // elem.access_system = true;
+    // elem.access_history = true;
     return is;
 }
 
@@ -30,9 +30,10 @@ ostream &print(ostream &os, const manager &elem) {
     return os;
 }
 
-manager& manager::new_account(const manager &new_acc, 
-                                bool &existed_in_file) {
-    string new_username, new_password;
+manager& manager::new_account(bool &existed_in_file) {
+    manager new_acc;
+    printf("Username: ");   cin >> new_acc.username;
+    
     existed_in_file = false;
     
     FILE * dat = fopen("data\\manager_account.dat", "wb");
@@ -44,18 +45,18 @@ manager& manager::new_account(const manager &new_acc,
         fseek(dat, i * (long) sizeof(manager), SEEK_SET);
         manager compare;
         fread(&compare, sizeof(manager), 1, dat);
-        if(compare.username == new_acc.username && 
-            compare.password == new_acc.password) {
-
+        if(compare.username == new_acc.username) {
             existed_in_file = true;
         }
     }
-    
-    this->assign(new_acc);
 
     if(!existed_in_file) {
+        printf("\nPassword: "); cin >> new_acc.password;
+        printf("\nName: "); cin >> new_acc.name;
+        new_acc.dob.add();
+        this->assign(new_acc);
         fseek(dat, 0, SEEK_END);
-        fwrite(this, sizeof(manager), 1, dat);
+        fwrite(this, sizeof(manager), 1, dat);        
     }
     
     fclose(dat);

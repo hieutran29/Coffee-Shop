@@ -48,13 +48,13 @@ public:
     /* Constructors */
     manager() = default;
 
-    manager(string name, birth dob,  int age) :
-            name(name), dob(dob), access_history(true), access_system(true) { }
+    // manager(string name, birth dob,  int age) :
+    //         name(name), dob(dob), access_history(true), access_system(true) { }
 
-    manager(string name, birth dob) : name(name), dob(dob),
-                                    access_history(true), access_system(true) { }
+    // manager(string name, birth dob) : name(name), dob(dob),
+    //                                 access_history(true), access_system(true) { }
 
-    manager(istream &is) : manager() { read(is, *this); }
+    // manager(istream &is) : manager() { read(is, *this); }
 
     /* Functions */
     manager& assign(const manager& rhs);
@@ -62,7 +62,7 @@ public:
     void add_food();
     void access();
     bool sign_in(manager&);
-    manager &new_account(const manager& , bool & );
+    manager &new_account(bool & );
 
 private:
     char access_menu() const;
@@ -71,6 +71,6 @@ private:
     string name;
     birth dob;
     // int age;
-    bool access_history;
-    bool access_system;
+    // bool access_history = true;
+    // bool access_system = true;
 };
