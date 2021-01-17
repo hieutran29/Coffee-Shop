@@ -1,0 +1,1 @@
+add_library(ut_base STATIC gb.cpp   )
