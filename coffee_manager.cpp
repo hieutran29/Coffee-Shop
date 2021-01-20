@@ -30,6 +30,7 @@ ostream &print(ostream &os, const manager &elem) {
     return os;
 }
 
+
 manager& manager::new_account(bool &existed_in_file) {
     manager new_acc;
     printf("Username: ");   cin >> new_acc.username;
