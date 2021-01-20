@@ -5,6 +5,14 @@ void birth::get() const {
         << " " << this->year;
 }
 
+manager& manager::assign(const manager& rhs) {
+    username = rhs.username;
+    password = rhs.password;
+    name = rhs.name;
+    dob.assign(rhs.dob);
+    return *this;
+}
+
 istream &read(istream &is, manager &elem) {
     printf("Name: ");
     is >> elem.name;
@@ -23,7 +31,18 @@ ostream &print(ostream &os, const manager &elem) {
 }
 
 manager& manager::new_account() {
+    string new_username, new_password;
+    printf("Username: ");   cin >> new_username;
+    printf("\nPassword: "); cin >> new_password;
+    printf("\nName: ");     cin >> name;
+    dob.add();
+
+    FILE * dat = fopen("data\\manager_account.dat", "w");
+    fseek(dat, 0, SEEK_END);
+    fwrite(this, sizeof(manager), 1, dat);
     
+    fclose(dat);
+    return *this;
 }
 
 bool manager::sign_in(manager &m) {
@@ -34,7 +53,7 @@ bool manager::sign_in(manager &m) {
     else {
         string sign_username, sign_password;
         printf("Name: "); cin >> sign_username;
-        printf("Password: "); cin >> sign_password;
+        printf("\nPassword: "); cin >> sign_password;
 
         // count the number of accounts in the file
         fseek(fp, 0, SEEK_END);
@@ -50,17 +69,13 @@ bool manager::sign_in(manager &m) {
             if(found.username == sign_username && 
                 found.password == sign_password) {
                 
-                m.username = found.username;
-                m.password = found.password;
-                m.name = found.name;
-                m.dob.day = found.dob.day; 
-                m.dob.month = found.dob.month;
-                m.dob.year = found.dob.year;
+                m.assign(found);
 
                 fclose(fp);
                 return true;
             }
         }
+        printf("No account found. Please sign-up!");
     }
     fclose(fp);
     return false;

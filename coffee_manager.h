@@ -3,7 +3,7 @@
 #include <string>
 
 // #include "coffee_system.h"
-#include "coffee_account.h"
+// #include "coffee_account.h"
 
 using namespace std;
 
@@ -22,6 +22,12 @@ public:
     birth(int d, int m, int y) : day(d), month(m), year(y) { }
 
     /* Function */
+    birth& add() {
+        printf("dd/mm/yyyy:");
+        cin >> day >> month >> year;
+        return *this;
+    }
+
     birth& assign(const birth & b) {
         day = b.day;
         month = b.month;
@@ -51,6 +57,7 @@ public:
     manager(istream &is) : manager() { read(is, *this); }
 
     /* Functions */
+    manager& assign(const manager& rhs);
     void add_drink();
     void add_food();
     void access();
