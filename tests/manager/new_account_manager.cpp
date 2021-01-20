@@ -5,17 +5,16 @@
 #define TEST_EXIST(arg, msg) \
     do {    \
         if((arg)) { \
-            UT_MSG_OK(msg);  \
+            UT_MSG_FAILED(msg);  \
         }   \
         else {  \
-            UT_MSG_FAILED(msg);  \
+            UT_MSG_OK(msg);  \
         }   \
     } while (0)
 
 
 
 int main() {
-    printf("fdjsal;\n");
     bool is_existed = false;
     manager m;
     

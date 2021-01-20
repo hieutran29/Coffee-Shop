@@ -38,9 +38,10 @@ set(coffee_inc
     coffee_manager.h
 )
 
+add_library(coffee STATIC ${coffee_src})
+
 if(${BUILD_TESTING})
     add_subdirectory(tests)
     add_test(NAME CoffeeNewAccountManager COMMAND new_account_manager_ut)
 endif()
 
-add_library(coffee STATIC ${coffee_src})
