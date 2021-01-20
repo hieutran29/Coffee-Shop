@@ -15,7 +15,8 @@ void system::sign_in_as() {
             m.access();
         }
         else {
-            m.new_account();
+            bool is_existed;
+            m.new_account(is_existed);
         }
     }
 }

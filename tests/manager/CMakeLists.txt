@@ -1,0 +1,3 @@
+add_executable(new_account_manager_ut new_account_manager.cpp)
+
+target_link_libraries(new_account_manager_ut ut_base coffee)
