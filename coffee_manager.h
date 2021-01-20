@@ -3,7 +3,7 @@
 #include <string>
 
 // #include "coffee_system.h"
-#include "coffee_account.h"
+// #include "coffee_account.h"
 
 using namespace std;
 
@@ -22,6 +22,12 @@ public:
     birth(int d, int m, int y) : day(d), month(m), year(y) { }
 
     /* Function */
+    birth& add() {
+        printf("dd/mm/yyyy:");
+        cin >> day >> month >> year;
+        return *this;
+    }
+
     birth& assign(const birth & b) {
         day = b.day;
         month = b.month;
@@ -42,20 +48,21 @@ public:
     /* Constructors */
     manager() = default;
 
-    manager(string name, birth dob,  int age) :
-            name(name), dob(dob), access_history(true), access_system(true) { }
+    // manager(string name, birth dob,  int age) :
+    //         name(name), dob(dob), access_history(true), access_system(true) { }
 
-    manager(string name, birth dob) : name(name), dob(dob),
-                                    access_history(true), access_system(true) { }
+    // manager(string name, birth dob) : name(name), dob(dob),
+    //                                 access_history(true), access_system(true) { }
 
-    manager(istream &is) : manager() { read(is, *this); }
+    // manager(istream &is) : manager() { read(is, *this); }
 
     /* Functions */
+    manager& assign(const manager& rhs);
     void add_drink();
     void add_food();
     void access();
     bool sign_in(manager&);
-    manager &new_account();
+    manager &new_account(bool & );
 
 private:
     char access_menu() const;
@@ -64,6 +71,6 @@ private:
     string name;
     birth dob;
     // int age;
-    bool access_history;
-    bool access_system;
+    // bool access_history = true;
+    // bool access_system = true;
 };

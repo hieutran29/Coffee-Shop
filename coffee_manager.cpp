@@ -5,14 +5,22 @@ void birth::get() const {
         << " " << this->year;
 }
 
+manager& manager::assign(const manager& rhs) {
+    username = rhs.username;
+    password = rhs.password;
+    name = rhs.name;
+    dob.assign(rhs.dob);
+    return *this;
+}
+
 istream &read(istream &is, manager &elem) {
     printf("Name: ");
     is >> elem.name;
     printf("Date of birth: dd/mm/yyyy: ");
     is >> elem.dob.day >> elem.dob.month 
         >> elem.dob.year;
-    elem.access_system = true;
-    elem.access_history = true;
+    // elem.access_system = true;
+    // elem.access_history = true;
     return is;
 }
 
@@ -22,19 +30,49 @@ ostream &print(ostream &os, const manager &elem) {
     return os;
 }
 
-manager& manager::new_account() {
+
+manager& manager::new_account(bool &existed_in_file) {
+    manager new_acc;
+    printf("Username: ");   cin >> new_acc.username;
     
+    existed_in_file = false;
+    
+    FILE * dat = fopen("data\\manager_account.dat", "wb");
+    long fileSize = ftell(dat);
+    long number_accounts = fileSize / (long) sizeof(manager);
+    rewind(dat);
+
+    for(long i = 0; i < number_accounts; i++) {
+        fseek(dat, i * (long) sizeof(manager), SEEK_SET);
+        manager compare;
+        fread(&compare, sizeof(manager), 1, dat);
+        if(compare.username == new_acc.username) {
+            existed_in_file = true;
+        }
+    }
+
+    if(!existed_in_file) {
+        printf("\nPassword: "); cin >> new_acc.password;
+        printf("\nName: "); cin >> new_acc.name;
+        new_acc.dob.add();
+        this->assign(new_acc);
+        fseek(dat, 0, SEEK_END);
+        fwrite(this, sizeof(manager), 1, dat);        
+    }
+    
+    fclose(dat);
+    return *this;
 }
 
 bool manager::sign_in(manager &m) {
-    FILE * fp = fopen("data\\manager_account.dat", "r");
+    FILE * fp = fopen("data\\manager_account.dat", "rb");
     if(fp == NULL) {
         perror("Can not open file\n");
     }
     else {
         string sign_username, sign_password;
         printf("Name: "); cin >> sign_username;
-        printf("Password: "); cin >> sign_password;
+        printf("\nPassword: "); cin >> sign_password;
 
         // count the number of accounts in the file
         fseek(fp, 0, SEEK_END);
@@ -43,24 +81,20 @@ bool manager::sign_in(manager &m) {
 
         // go for each account, and compare them to the signed-in account
         rewind(fp);
-        for(int i = 0; i < number_accounts; i++) {
-            fseek(fp, i * sizeof(manager), SEEK_SET);
+        for(long i = 0; i < number_accounts; i++) {
+            fseek(fp, i * (long) sizeof(manager), SEEK_SET);
             manager found;
             fread(&found, sizeof(manager), 1, fp);
             if(found.username == sign_username && 
                 found.password == sign_password) {
                 
-                m.username = found.username;
-                m.password = found.password;
-                m.name = found.name;
-                m.dob.day = found.dob.day; 
-                m.dob.month = found.dob.month;
-                m.dob.year = found.dob.year;
+                m.assign(found);
 
                 fclose(fp);
                 return true;
             }
         }
+        printf("No account found. Please sign-up!");
     }
     fclose(fp);
     return false;
