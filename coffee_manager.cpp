@@ -37,7 +37,9 @@ manager& manager::new_account(bool &existed_in_file) {
     
     existed_in_file = false;
     
-    FILE * dat = fopen("data\\manager_account.dat", "wb");
+    FILE * dat = fopen("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", "rb");
+
+    fseek(dat, 0, SEEK_END);
     long fileSize = ftell(dat);
     long number_accounts = fileSize / (long) sizeof(manager);
     rewind(dat);
@@ -51,12 +53,15 @@ manager& manager::new_account(bool &existed_in_file) {
         }
     }
 
+    fclose(dat);
+    dat = fopen("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", "ab");
+
     if(!existed_in_file) {
-        printf("\nPassword: "); cin >> new_acc.password;
-        printf("\nName: "); cin >> new_acc.name;
+        printf("Password: "); cin >> new_acc.password;
+        printf("Name: "); cin >> new_acc.name;
         new_acc.dob.add();
         this->assign(new_acc);
-        fseek(dat, 0, SEEK_END);
+        // fseek(dat, 0, SEEK_END);
         fwrite(this, sizeof(manager), 1, dat);        
     }
     
