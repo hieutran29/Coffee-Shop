@@ -6,66 +6,69 @@ void birth::get() const {
 }
 
 manager& manager::assign(const manager& rhs) {
-    username = rhs.username;
-    password = rhs.password;
-    name = rhs.name;
-    dob.assign(rhs.dob);
+    strcpy(elem.username, rhs.elem.username);
+    strcpy(elem.password, rhs.elem.password);
+    strcpy(elem.name, rhs.elem.name);
+    elem.dob.assign(rhs.elem.dob);
     return *this;
 }
 
-istream &read(istream &is, manager &elem) {
-    printf("Name: ");
-    is >> elem.name;
-    printf("Date of birth: dd/mm/yyyy: ");
-    is >> elem.dob.day >> elem.dob.month 
-        >> elem.dob.year;
-    // elem.access_system = true;
-    // elem.access_history = true;
-    return is;
-}
-
-ostream &print(ostream &os, const manager &elem) {
-    os << elem.name << " " << " ";
-    elem.dob.get();
-    return os;
+manager& manager::assign(const manager_t& rhs) {
+    strcpy(elem.username, rhs.username);
+    strcpy(elem.password, rhs.password);
+    strcpy(elem.name, rhs.name);
+    elem.dob.assign(rhs.dob);
+    return *this;
 }
 
 
 manager& manager::new_account(bool &existed_in_file) {
-    manager new_acc;
-    printf("Username: ");   cin >> new_acc.username;
+    manager_t new_acc;
+    printf("Username: ");
+    scanf(" %s", new_acc.username);
     
     existed_in_file = false;
     
-    FILE * dat = fopen("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", "rb");
+    ifstream inp("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", 
+                    ios::in | ios::binary);
 
-    fseek(dat, 0, SEEK_END);
-    long fileSize = ftell(dat);
-    long number_accounts = fileSize / (long) sizeof(manager);
-    rewind(dat);
+    // count number of elements
+    inp.seekg(0, ios::end);
+    long fileSize = inp.tellg();
+    long number_accounts = fileSize / sizeof(manager_t);
+    inp.seekg(0, ios::beg);
+
 
     for(long i = 0; i < number_accounts; i++) {
-        fseek(dat, i * (long) sizeof(manager), SEEK_SET);
-        manager compare;
-        fread(&compare, sizeof(manager), 1, dat);
-        if(compare.username == new_acc.username) {
+        manager_t compare;
+    
+        inp.read((char *) &compare, sizeof(manager_t));
+
+        if(strcmp(compare.username, new_acc.username) == 0) {
             existed_in_file = true;
         }
     }
 
-    fclose(dat);
-    dat = fopen("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", "ab");
-
+    inp.close();
+    if(!inp.good()) {
+        printf("Error occurs in reading file\n");
+    }
+    ofstream outp("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat",
+                    ios::binary | ios::out | ios::app);
     if(!existed_in_file) {
-        printf("Password: "); cin >> new_acc.password;
-        printf("Name: "); cin >> new_acc.name;
+        printf("Password: "); scanf(" %s", new_acc.password);
+        printf("Name: "); scanf(" %s", new_acc.name);
         new_acc.dob.add();
-        this->assign(new_acc);
-        // fseek(dat, 0, SEEK_END);
-        fwrite(this, sizeof(manager), 1, dat);        
+        // this->assign(new_acc);
+
+        outp.write((char *) &new_acc, sizeof(manager_t));
+    }
+    outp.close();
+    if(!outp.good()) {
+        printf("Error occurs in writing file\n");
     }
     
-    fclose(dat);
+    this->assign(new_acc);
     return *this;
 }
 

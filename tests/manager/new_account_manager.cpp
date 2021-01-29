@@ -1,11 +1,13 @@
 #include "ut.h"
 #include "gb.h"
 
+bool failed = false;
 
 #define TEST_EXIST(arg, msg) \
     do {    \
         if((arg)) { \
             UT_MSG_FAILED(msg);  \
+            failed = true; \
         }   \
         else {  \
             UT_MSG_OK(msg);  \
@@ -16,7 +18,6 @@
 
 int main() {
     bool is_existed = false;
-    manager m;
     
     test_new_accout_m1(is_existed);
     TEST_EXIST(is_existed, "manager 1");
@@ -34,5 +35,9 @@ int main() {
     TEST_EXIST(is_existed, "manager 4");
     is_existed = false;
 
+    if(failed) {
+        return 1;
+    }
+    UT_MSG_OK("Test Create New Account for Manager");
     return 0;
 }
