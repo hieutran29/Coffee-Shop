@@ -72,40 +72,46 @@ manager& manager::new_account(bool &existed_in_file) {
     return *this;
 }
 
-bool manager::sign_in(manager &m) {
-    FILE * fp = fopen("data\\manager_account.dat", "rb");
-    if(fp == NULL) {
-        perror("Can not open file\n");
+bool manager::sign_in(manager &man) {
+    bool ret = false;
+    manager_t sign;
+
+    printf("Username: ");   scanf(" %s", sign.username);
+    printf("Password: ");   scanf(" %s", sign.password);
+
+
+    ifstream inp("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", 
+                    ios::in | ios::binary);
+    if(!inp) {
+        printf("%s: No file information\n", "manager_account.dat");
+        ret = false;
     }
     else {
-        string sign_username, sign_password;
-        printf("Name: "); cin >> sign_username;
-        printf("\nPassword: "); cin >> sign_password;
+        inp.seekg(0, ios::end);
+        long fileSize = inp.tellg();
+        long number_accounts = fileSize / sizeof(manager_t);
+        inp.seekg(0, ios::beg);
 
-        // count the number of accounts in the file
-        fseek(fp, 0, SEEK_END);
-        long fileSize = ftell(fp);
-        long number_accounts = fileSize / (long) sizeof(manager);
-
-        // go for each account, and compare them to the signed-in account
-        rewind(fp);
         for(long i = 0; i < number_accounts; i++) {
-            fseek(fp, i * (long) sizeof(manager), SEEK_SET);
-            manager found;
-            fread(&found, sizeof(manager), 1, fp);
-            if(found.username == sign_username && 
-                found.password == sign_password) {
-                
-                m.assign(found);
+            manager_t compare;
 
-                fclose(fp);
-                return true;
+            inp.read((char *) &compare, sizeof(manager_t));
+
+            if(strcmp(compare.username, sign.username) == 0 &&
+                strcmp(compare.password, sign.password) == 0) {
+                man.assign(sign);
+                ret = true;
             }
         }
-        printf("No account found. Please sign-up!");
+        
+        inp.close();
+        if(!inp.good()) {
+            printf("Error occurs in reading file: %s\n", "manager_account.dat");
+            ret = false;
+        }
     }
-    fclose(fp);
-    return false;
+
+    return ret;
 }
 
 char manager::access_menu() const {
