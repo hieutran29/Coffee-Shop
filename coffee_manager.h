@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cstring>
 
 // #include "coffee_system.h"
 // #include "coffee_account.h"
@@ -9,13 +10,9 @@
 using namespace std;
 
 class manager;
-istream &read(istream &is, manager &elem);
-ostream &print(ostream &os, const manager &elem);
 
 class birth {
     friend class manager;
-    friend istream &read(istream &is, manager &elem);
-    friend ostream &print(ostream &os, const manager &elem);
 
 public:
     birth() = default;
@@ -35,15 +32,23 @@ public:
         year = b.year;
         return *this;
     }
+    void get() const;
 
 private:
-    void get() const;
+    
     int day, month, year;
 };
 
+struct manager_t {
+    char username[101], password[101];
+    char name[101];
+    birth dob;
+    // int age;
+    // bool access_history = true;
+    // bool access_system = true;
+};
+
 class manager {
-    friend istream &read(istream &is, manager &elem);
-    friend ostream &print(ostream &os, const manager &elem);
 
 public:
     /* Constructors */
@@ -59,19 +64,19 @@ public:
 
     /* Functions */
     manager& assign(const manager& rhs);
+    manager& assign(const manager_t& rhs);
     void add_drink();
     void add_food();
     void access();
     bool sign_in(manager&);
     manager &new_account(bool & );
+    void get() const {
+        cout << elem.username << " " << elem.password << " " << elem.name << "\n";
+        elem.dob.get();
+    }
 
 private:
     char access_menu() const;
 
-    string username, password;
-    string name;
-    birth dob;
-    // int age;
-    // bool access_history = true;
-    // bool access_system = true;
+    manager_t elem;
 };
