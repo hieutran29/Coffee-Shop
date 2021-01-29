@@ -37,35 +37,47 @@ manager& manager::new_account(bool &existed_in_file) {
     
     existed_in_file = false;
     
-    FILE * dat = fopen("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", "rb");
+    ifstream inp("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", 
+                    ios::in | ios::binary);
 
-    fseek(dat, 0, SEEK_END);
-    long fileSize = ftell(dat);
-    long number_accounts = fileSize / (long) sizeof(manager);
-    rewind(dat);
+    // count number of elements
+    inp.seekg(0, ios::end);
+    long fileSize = inp.tellg();
+    long number_accounts = fileSize / sizeof(manager);
+    inp.seekg(0, ios::beg);
+
 
     for(long i = 0; i < number_accounts; i++) {
-        fseek(dat, i * (long) sizeof(manager), SEEK_SET);
         manager compare;
-        fread(&compare, sizeof(manager), 1, dat);
+    
+        inp.read((char *) &compare, sizeof(manager));
+
         if(compare.username == new_acc.username) {
+            cout << "Duplicate: " << compare.name << " " << new_acc.username << "\n";
             existed_in_file = true;
         }
     }
 
-    fclose(dat);
-    dat = fopen("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", "ab");
-
+    inp.close();
+    if(!inp.good()) {
+        printf("Error occurs in reading file\n");
+    }
+    ofstream outp("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat",
+                    ios::binary | ios::out | ios::app);
     if(!existed_in_file) {
         printf("Password: "); cin >> new_acc.password;
         printf("Name: "); cin >> new_acc.name;
         new_acc.dob.add();
-        this->assign(new_acc);
-        // fseek(dat, 0, SEEK_END);
-        fwrite(this, sizeof(manager), 1, dat);        
+        // this->assign(new_acc);
+
+        outp.write((char *) &new_acc, sizeof(manager));
+    }
+    outp.close();
+    if(!outp.good()) {
+        printf("Error occurs in writing file\n");
     }
     
-    fclose(dat);
+    this->assign(new_acc);
     return *this;
 }
 
