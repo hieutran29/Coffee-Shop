@@ -43,9 +43,6 @@ struct manager_t {
     char username[101], password[101];
     char name[101];
     birth dob;
-    // int age;
-    // bool access_history = true;
-    // bool access_system = true;
 };
 
 class manager {
@@ -54,21 +51,13 @@ public:
     /* Constructors */
     manager() = default;
 
-    // manager(string name, birth dob,  int age) :
-    //         name(name), dob(dob), access_history(true), access_system(true) { }
-
-    // manager(string name, birth dob) : name(name), dob(dob),
-    //                                 access_history(true), access_system(true) { }
-
-    // manager(istream &is) : manager() { read(is, *this); }
-
     /* Functions */
     manager& assign(const manager& rhs);
     manager& assign(const manager_t& rhs);
     void add_drink();
     void add_food();
     void access();
-    bool sign_in(manager&);
+    bool sign_in(manager_t &);
     manager &new_account(bool & );
     void get() const {
         cout << elem.username << " " << elem.password << " " << elem.name << "\n";

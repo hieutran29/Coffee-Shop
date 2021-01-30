@@ -32,5 +32,5 @@ private:
     int sign_in;
     /* map from product to its quantity and its price */
     map<string, pair<long int, double>> product;
-    manager m;
+    manager man;
 };

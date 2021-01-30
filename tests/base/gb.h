@@ -41,4 +41,6 @@ manager test_new_accout_m3(bool &is_existed);
 */
 manager test_new_accout_m4(bool &is_existed);
 
+void print_all_managers();
+
 #endif  // TESTS_BASE_H_
