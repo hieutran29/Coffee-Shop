@@ -72,12 +72,8 @@ manager& manager::new_account(bool &existed_in_file) {
     return *this;
 }
 
-bool manager::sign_in(manager &man) {
+bool manager::sign_in(manager_t &man) {
     bool ret = false;
-    manager_t sign;
-
-    printf("Username: ");   scanf(" %s", sign.username);
-    printf("Password: ");   scanf(" %s", sign.password);
 
 
     ifstream inp("C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat", 
@@ -97,9 +93,9 @@ bool manager::sign_in(manager &man) {
 
             inp.read((char *) &compare, sizeof(manager_t));
 
-            if(strcmp(compare.username, sign.username) == 0 &&
-                strcmp(compare.password, sign.password) == 0) {
-                man.assign(sign);
+            if(strcmp(compare.username, man.username) == 0 &&
+                strcmp(compare.password, man.password) == 0) {
+                this->assign(compare);
                 ret = true;
             }
         }
