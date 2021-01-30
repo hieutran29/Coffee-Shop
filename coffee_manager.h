@@ -67,6 +67,9 @@ public:
         dob.assign(b);
     }
 
+    manager(const string& user, const string& pass) : 
+            manager(user, pass, " ", birth(0, 0, 0)) { }
+
     /* Functions */
     manager& assign(const manager& rhs);
     void add_drink();

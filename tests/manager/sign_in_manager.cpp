@@ -7,15 +7,14 @@ void test_1() {
     bool ret;
     manager sign_in;
 
-    manager m;
-    strcpy(m.username, "hieutran");
-    strcpy(m.password, "hieutran");
+    manager m("hieutran", "hieutran");
     ret = sign_in.sign_in(m);
-    if(!ret) {
+
+    if(ret) {
         failed = true;
     }
 
-    if(!ret) {
+    if(ret) {
         UT_MSG_FAILED("Manager 1");
     }  
     else {
@@ -27,19 +26,37 @@ void test_2() {
     bool ret;
     manager sign_in;
 
-    manager m;
-    strcpy(m.username, "hieu29");
-    strcpy(m.password, "hieu");
+    manager m("hieu29", "hieu");
     ret = sign_in.sign_in(m);
+
+    if(ret) {
+        failed = true;
+    }
+
+    if(ret) {
+        UT_MSG_FAILED("Manager 2");
+    }  
+    else {
+        UT_MSG_OK("Manager 2");
+    }
+}
+
+void test_3() {
+    bool ret;
+    manager sign_in;
+
+    manager m = account_m1();
+    ret = sign_in.sign_in(m);
+
     if(!ret) {
         failed = true;
     }
 
     if(!ret) {
-        UT_MSG_FAILED("Manager 2");
-    }  
+        UT_MSG_FAILED("Manager 3");
+    }
     else {
-        UT_MSG_OK("Manager 2");
+        UT_MSG_OK("Manager 3");
     }
 }
 
@@ -48,6 +65,9 @@ int main() {
     printf("\n");
 
     test_2();
+    printf("\n");
+
+    test_3();
     printf("\n");
 
     if(failed) {
