@@ -11,6 +11,15 @@ using namespace std;
 
 class manager;
 
+#if defined _WIN32
+    #define file_manager \
+         "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat" 
+#elif defined _linux_
+    #define file_manager \
+         "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat" 
+         
+#endif
+
 class birth {
     friend class manager;
 
@@ -39,33 +48,43 @@ private:
     int day, month, year;
 };
 
-struct manager_t {
-    char username[101], password[101];
-    char name[101];
-    birth dob;
-};
+
+bool existed_in_file(const manager &);
+
 
 class manager {
+    friend bool existed_in_file(const manager &);
 
 public:
     /* Constructors */
     manager() = default;
 
+    manager(const string& user, const string& pass, 
+            const string& n, const birth& b) : manager() {
+        strcpy(username, user.c_str());
+        strcpy(password, pass.c_str());
+        strcpy(name, n.c_str());
+        dob.assign(b);
+    }
+
     /* Functions */
     manager& assign(const manager& rhs);
-    manager& assign(const manager_t& rhs);
     void add_drink();
     void add_food();
     void access();
-    bool sign_in(manager_t &);
-    manager &new_account(bool & );
+    bool sign_in(manager &);
+    void new_account();
     void get() const {
-        cout << elem.username << " " << elem.password << " " << elem.name << "\n";
-        elem.dob.get();
+        printf("Name: %s\nPassword: %s\nName: %s\n", username,
+                            password, name);
+        dob.get();
+        printf("\n");
     }
 
 private:
     char access_menu() const;
-
-    manager_t elem;
+    
+    char username[101], password[101];
+    char name[101];
+    birth dob;
 };

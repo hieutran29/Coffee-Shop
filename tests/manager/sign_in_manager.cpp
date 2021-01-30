@@ -7,7 +7,7 @@ void test_1() {
     bool ret;
     manager sign_in;
 
-    manager_t m;
+    manager m;
     strcpy(m.username, "hieutran");
     strcpy(m.password, "hieutran");
     ret = sign_in.sign_in(m);
@@ -27,7 +27,7 @@ void test_2() {
     bool ret;
     manager sign_in;
 
-    manager_t m;
+    manager m;
     strcpy(m.username, "hieu29");
     strcpy(m.password, "hieu");
     ret = sign_in.sign_in(m);
