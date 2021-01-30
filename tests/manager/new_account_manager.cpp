@@ -17,23 +17,47 @@ bool failed = false;
 
 
 int main() {
-    bool is_existed = false;
-    
-    test_new_accout_m1(is_existed);
-    TEST_EXIST(is_existed, "manager 1");
-    is_existed = false;
+    manager m;
 
-    test_new_accout_m2(is_existed);
-    TEST_EXIST(is_existed, "manager 2");
-    is_existed = false;
+    m = account_m1();
+    if(existed_in_file(m)) {
+        failed = true;
+        UT_MSG_FAILED("Manager 1");
+    }
+    else {
+        m.new_account();
+        UT_MSG_OK("Manager 1");
+    }
 
-    test_new_accout_m3(is_existed);
-    TEST_EXIST(is_existed, "manager 3");
-    is_existed = false;
+    m = account_m2();
+    if(existed_in_file(m)) {
+        failed = true;
+        UT_MSG_FAILED("Manager 2");
+    }
+    else {
+        m.new_account();
+        UT_MSG_OK("Manager 2");
+    }
 
-    test_new_accout_m4(is_existed);
-    TEST_EXIST(is_existed, "manager 4");
-    is_existed = false;
+    m = account_m3();
+    if(existed_in_file(m)) {
+        failed = false;
+        UT_MSG_OK("Manager 3");
+    }
+    else {
+        m.new_account();
+        UT_MSG_FAILED("Manager 3");
+    }
+
+    m = account_m4();
+    if(existed_in_file(m)) {
+        failed = true;
+        UT_MSG_FAILED("Manager 4");
+    }
+    else {
+        m.new_account();
+        UT_MSG_OK("Manager 4");
+    }
 
     if(failed) {
         return 1;
