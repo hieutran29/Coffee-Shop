@@ -5,42 +5,40 @@
 
 /*
     username: hieutran29
-    password: hieu1234
-    name    : HieuTran
+    password: hieutran29
+    name    : hieutran29
     dob     : 29/08/2001
 */
-manager test_new_accout_m1(bool &is_existed);
+manager account_m1();
 
 
 
 /*
     username: hieu29
-    password: hieu1234
-    name    : TranHieu
+    password: hieu29
+    name    : hieu29
     dob     : 29/08/2001
 */
-manager test_new_accout_m2(bool &is_existed);
+manager account_m2();
 
 
 
 /*
     username: hieutran29
-    password: hieu1234
-    name    : TranTrungHieu
+    password: hieutran29
+    name    : hieutran29
     dob     : 29/08/2001
 */
-manager test_new_accout_m3(bool &is_existed);
-
+manager account_m3();
 
 
 /*
-    username: hieu.xteen
-    password: hieu1234
-    name    : TranHieu
+    username: hieu
+    password: hieu
+    name    : hieu
     dob     : 29/08/2001
 */
-manager test_new_accout_m4(bool &is_existed);
+manager account_m4();
 
-void print_all_managers();
 
 #endif  // TESTS_BASE_H_
