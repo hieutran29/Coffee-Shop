@@ -41,4 +41,7 @@ manager account_m3();
 manager account_m4();
 
 
+void clear_file();
+
+
 #endif  // TESTS_BASE_H_

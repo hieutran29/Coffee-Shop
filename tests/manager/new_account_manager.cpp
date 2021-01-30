@@ -17,6 +17,8 @@ bool failed = false;
 
 
 int main() {
+    clear_file();
+
     manager m;
 
     m = account_m1();

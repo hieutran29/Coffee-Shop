@@ -48,3 +48,8 @@ manager account_m4() {
                 birth(29, 8, 2001));
     return m;
 }
+
+void clear_file() {
+    ofstream outp(file_manager, ios::out | ios::trunc);
+    outp.close();
+}
