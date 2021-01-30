@@ -41,12 +41,12 @@ int main() {
 
     m = account_m3();
     if(existed_in_file(m)) {
-        failed = true;
-        UT_MSG_FAILED("Manager 3");
+        failed = false;
+        UT_MSG_OK("Manager 3");
     }
     else {
         m.new_account();
-        UT_MSG_OK("Manager 3");
+        UT_MSG_FAILED("Manager 3");
     }
 
     m = account_m4();
