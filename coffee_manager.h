@@ -9,12 +9,12 @@ using namespace std;
 
 class manager;
 
-#if defined _WIN32
+#if defined (_WIN32)
     #define file_manager \
          "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat" 
-#elif defined _linux_
+#elif defined (__linux__)
     #define file_manager \
-         "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat" 
+         "/home/hieutran/Coding/Coffee_Project/data/manager_account.dat" 
          
 #endif
 
