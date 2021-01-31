@@ -89,42 +89,35 @@ bool manager::sign_in(manager &man) {
 
 char manager::access_menu() const {
     char choice;
-    cout << "Choose 1 option\n";
+    cout << "\nChoose 1 option:\n";
     printf("1. Add drink\n");
     printf("2. Add food\n");
     printf("3. Access product's information\n");
-    printf("4. Access staff's information\n");
-    printf("5. Access customer's information\n");
-    printf("q. Quit");
+    printf("4. Access customer's information\n");
+    printf("0. Quit\n");
+    cin >> choice;
     return choice;
 }
 
 void manager::access() {
     char choice;
     do {
-        do {
-            // choice = access_menu();
-            switch(choice) {
-                if(choice == '1') {
-                    add_drink();
-                }
-                if(choice == '2') {
-                    add_food();
+        choice = this->access_menu();
+        if(choice == '1') {
 
-                }
-                if(choice == '3') {
-                    
-                }
-                if(choice == '4') {
+        }
+        else if(choice == '2') {
 
-     
-                }
-                if(choice == '5') {
+        }
+        else if(choice == '3') {
 
-     
-                }
-            }   
-        } while(choice < '1' || choice > '5');
-    } while(choice != 'q' || choice != 'Q');
+        }
+        else if(choice == '4') {
+            
+        }
+        else if(choice == '0') {
+            printf("Sign out...\n");
+        }
+    } while(choice != '0');
 }
 

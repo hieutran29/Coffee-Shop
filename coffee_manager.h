@@ -4,8 +4,6 @@
 #include <fstream>
 #include <cstring>
 
-// #include "coffee_system.h"
-// #include "coffee_account.h"
 
 using namespace std;
 
@@ -69,6 +67,9 @@ public:
 
     manager(const string& user, const string& pass) : 
             manager(user, pass, " ", birth(0, 0, 0)) { }
+
+    manager(const string& user) : 
+            manager(user, " ", " ", birth(0, 0, 0)) { }
 
     /* Functions */
     manager& assign(const manager& rhs);
