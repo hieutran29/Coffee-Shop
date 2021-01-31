@@ -1,5 +1,6 @@
 #include <vector>
 #include <map>
+#include <iostream>
 
 #include "coffee_manager.h"
 #include "coffee_type.h"
@@ -10,26 +11,20 @@ using namespace std;
 /* read CppPrimer before */
 
 
-class system;
+class system_t;
 
-class system {
+class system_t {
     friend class manager;
 
 public:
-    /* Function */
-    ostream& get(ostream &os) {
-        for(auto p : product) {
-            os << p.first << " " << p.second.first
-                << " " << p.second.second << '\n';
-        }
-        return os;
-    }
+    /* Constructor */
+    system_t() = default;
 
-    void sign_in_as();
+    /* Function */
+    system_t& sign_in();
+    system_t& sign_in_as_manager();
 
 private:
-    /* variable */
-    int sign_in;
     /* map from product to its quantity and its price */
     map<string, pair<long int, double>> product;
     manager man;
