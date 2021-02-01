@@ -34,10 +34,28 @@ manager& manager::assign(const manager& rhs) {
 }
 
 
-void manager::new_account() {
+manager &manager::new_account() {
+    string username = " ", password = " ", name = " ";
+    int day = 0, month = 0, year = 0;
+
+    do {
+        printf("Enter username: ");
+        cin >> username;
+    } while(existed_in_file(manager(username)));
+
+    printf("Password: ");   cin >> password;
+    printf("Name: ");       cin >> name;
+    printf("dd/mm/yyyy: "); scanf("%d%d%d", &day, &month, &year);
+
+    this->new_account(manager(username, password, name, 
+                        birth(day, month, year)));
+    return *this;
+}
+
+void manager::new_account(const manager &new_acc) const {
     ofstream outp(file_manager, ios::binary | ios::out | ios::app);
 
-    outp.write((char *) this, sizeof(manager));
+    outp.write((char *) &new_acc, sizeof(manager));
 
     outp.close();
     if(!outp.good()) {

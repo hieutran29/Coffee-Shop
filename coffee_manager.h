@@ -48,7 +48,9 @@ public:
     void access();
 
     bool sign_in(manager &);
-    void new_account();
+
+    manager &new_account();
+    void new_account(const manager &) const;
     
     void get() const {
         printf("Name: %s\nPassword: %s\nName: %s\n", username,

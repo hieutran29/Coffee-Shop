@@ -27,7 +27,7 @@ int main() {
         UT_MSG_FAILED("guest 1");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_OK("guest 1");
     }
 
@@ -37,7 +37,7 @@ int main() {
         UT_MSG_FAILED("guest 2");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_OK("guest 2");
     }
 
@@ -47,7 +47,7 @@ int main() {
         UT_MSG_OK("guest 3");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_FAILED("guest 3");
     }
 
@@ -57,7 +57,7 @@ int main() {
         UT_MSG_FAILED("guest 4");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_OK("guest 4");
     }
 

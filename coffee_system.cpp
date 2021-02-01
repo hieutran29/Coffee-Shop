@@ -53,30 +53,18 @@ system_t &system_t::sign_in_as_manager() {
             sign_up = false;
         }
         else if(choice == 2) {
-            printf("Enter Username: ");
-            cin >> username;
-            log_in = manager(username);
-
-            retry = existed_in_file(log_in);
-            not_found = false;
-            sign_up = true;
+            this->man.new_account();
+            return *this;
         }
         else {
             return *this;
         }
     }
 
-    printf("Password: ");   cin >> password;
-    if(sign_up) {
-        printf("Name: ");       cin >> name;
-        printf("dd/mm/yyyy: "); scanf("%d%d%d", &day, &month, &year);
-    }
+    printf("Password: ");
+    cin >> password;
 
-    log_in = manager(username, password, name,
-                        birth(day, month, year));
-    if(sign_up) {
-        log_in.new_account();
-    }
+    log_in = manager(username, password);
 
     while(!this->man.sign_in(log_in)) {
         printf("Wrong password\n1. Re-enter password\n0. Quit\n");
@@ -87,8 +75,7 @@ system_t &system_t::sign_in_as_manager() {
         }
         printf("Password: ");
         cin >> password;
-        log_in = manager(username, password, name,
-                            birth(day, month, year));
+        log_in = manager(username, password);
     }
 
     this->man.access();

@@ -42,20 +42,26 @@ public:
     /* Constructors */
     guest_t() = default;
 
-    guest_t(const std::string &n, const string &pass, birth b) {
+    guest_t(const std::string &n, const string &pass, birth b, 
+                    vector<visit> v, unsigned t) {
         strcpy(name, n.c_str());
         strcpy(password, pass.c_str());
         dob = b;
+        visit_detail = v;
+        time_visit = t;
     }
 
-    guest_t(const std::string &n, const string &pass) : guest_t(n, pass, birth(0, 0, 0)) { }
+    guest_t(const std::string &n, const string &pass) 
+            : guest_t(n, pass, birth(0, 0, 0), vector<visit> (), 0) { }
 
-    guest_t(const std::string &n) : guest_t(n, " ", birth(0, 0, 0)) { }
+    guest_t(const std::string &n) 
+            : guest_t(n, " ", birth(0, 0, 0), vector<visit> (), 0) { }
 
     /* Functions */
     void view_information() const;
 
     guest_t &new_account();
+    void new_account(const guest_t &) const;
     
     bool sign_in(const guest_t &);
 

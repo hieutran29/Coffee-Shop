@@ -27,7 +27,7 @@ int main() {
         UT_MSG_FAILED("Manager 1");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_OK("Manager 1");
     }
 
@@ -37,7 +37,7 @@ int main() {
         UT_MSG_FAILED("Manager 2");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_OK("Manager 2");
     }
 
@@ -47,7 +47,7 @@ int main() {
         UT_MSG_OK("Manager 3");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_FAILED("Manager 3");
     }
 
@@ -57,7 +57,7 @@ int main() {
         UT_MSG_FAILED("Manager 4");
     }
     else {
-        m.new_account();
+        m.new_account(m);
         UT_MSG_OK("Manager 4");
     }
 

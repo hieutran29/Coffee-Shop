@@ -41,9 +41,27 @@ void guest_t::view_information() const {
 
 
 guest_t &guest_t::new_account() {
+    string username = " ", password = " ", name = " ";
+    int day = 0, month = 0, year = 0;
+
+    do {
+        printf("Enter username: ");
+        cin >> username;
+    } while(existed_in_file(guest_t(username)));
+
+    printf("Password: ");   cin >> password;
+    printf("Name: ");       cin >> name;
+    printf("dd/mm/yyyy: "); scanf("%d%d%d", &day, &month, &year);
+
+    this->new_account(guest_t(username, password, 
+                    birth(day, month, year), vector<visit> (), 0));
+    return *this;
+}
+
+void guest_t::new_account(const guest_t &new_acc) const {
     ofstream outp(file_guest, ios::binary | ios::out | ios::app);
 
-    outp.write((char *) this, sizeof(guest_t));
+    outp.write((char *) &new_acc, sizeof(guest_t));
 
     outp.close();
     if(!outp.good()) {
