@@ -174,7 +174,7 @@ void manager::add_food() {
     printf("Enter price: ");
     scanf("%lf", &new_food.price);
 
-    add_drink(new_food);
+    add_food(new_food);
 }
 
 void manager::add_food(const product_t &food) {

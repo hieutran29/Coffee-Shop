@@ -2,7 +2,7 @@
 
 
 bool existed_in_file(const product_t &check, COFFEE_PRODUCT type) {
-    bool ret;
+    bool ret = false;
     ifstream inp;
 
     if(type == COFFEE_DRINK) {
