@@ -23,4 +23,5 @@ public:
 
 private:
     manager man;
+    guest_t guest;
 };
