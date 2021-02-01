@@ -5,6 +5,8 @@
 #include <fstream>
 #include <cstring>
 
+#include "file.h"
+
 using namespace std;
 
 
@@ -13,18 +15,6 @@ enum COFFEE_PRODUCT {
     COFFEE_FOOD = 2
 };
 
-
-#if defined (_WIN32)
-    #define file_drink \
-        "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\product_drink.dat"
-    #define file_food \
-        "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\product_food.dat"     
-#elif defined (__linux__)
-    #define file_drink \
-        "/home/hieutran/Coding/Coffee_Project/data/product_drink.dat" 
-    #define file_food \
-        "/home/hieutran/Coding/Coffee_Project/data/product_food.dat" 
-#endif
 
 class product_t;
 

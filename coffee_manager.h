@@ -9,15 +9,6 @@
 
 class manager;
 
-#if defined (_WIN32)
-    #define file_manager \
-         "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\manager_account.dat" 
-#elif defined (__linux__)
-    #define file_manager \
-         "/home/hieutran/Coding/Coffee_Project/data/manager_account.dat" 
-         
-#endif
-
 
 bool existed_in_file(const manager &);
 
