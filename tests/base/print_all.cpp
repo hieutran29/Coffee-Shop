@@ -20,6 +20,11 @@ int main() {
 
         compare.get();
     }
+
+    inp.close();
+    if(!inp.good()) {
+        printf("Error reading file while testing");
+    }
     
     return true;
 }

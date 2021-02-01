@@ -29,6 +29,7 @@ endif()
 set(coffee_src
     coffee_manager.cpp
     coffee_system.cpp
+    coffee_product.cpp
 )
 
 set(coffee_inc
@@ -36,6 +37,7 @@ set(coffee_inc
     coffee_system.h
     coffee_guest.h
     coffee_manager.h
+    coffee_product.h
 )
 
 add_library(coffee STATIC ${coffee_src})
@@ -44,5 +46,6 @@ if(${BUILD_TESTING})
     add_subdirectory(tests)
     add_test(NAME CoffeeNewAccountManager COMMAND new_account_manager_ut)
     add_test(NAME CoffeeSignInManager COMMAND sign_in_manager_ut)
+    add_test(NAME AddDrink COMMAND add_drink_ut)
 endif()
 

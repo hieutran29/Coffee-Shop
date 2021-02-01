@@ -7,9 +7,6 @@
 
 using namespace std;
 
-/* need pointer */
-/* read CppPrimer before */
-
 
 class system_t;
 
@@ -25,7 +22,5 @@ public:
     system_t& sign_in_as_manager();
 
 private:
-    /* map from product to its quantity and its price */
-    map<string, pair<long int, double>> product;
     manager man;
 };
