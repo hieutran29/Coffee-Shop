@@ -234,6 +234,7 @@ char manager::access_menu() const {
     printf("3. Access product's information\n");
     printf("4. Access customer's information\n");
     printf("0. Quit\n");
+    printf("Your choice: ");
     cin >> choice;
     return choice;
 }
@@ -253,7 +254,7 @@ void manager::access() {
             show_product(COFFEE_FOOD);
         }
         else if(choice == '4') {
-            
+            show_guest();
         }
         else if(choice == '0') {
             printf("Sign out...\n");
@@ -289,5 +290,29 @@ void manager::show_product(COFFEE_PRODUCT type) {
     inp.close();
     if(!inp.good()) {
         printf("Error reding file: %s\n", (type == COFFEE_DRINK) ? "product_drink.dat" : "product_food.dat");
+    }
+}
+
+void manager::show_guest() const {
+    ifstream inp;
+    inp.open(file_guest, ios::in | ios::binary);
+
+    inp.seekg(0, ios::end);
+    long fileSize = inp.tellg();
+    long number_accounts = fileSize / sizeof(guest_t);
+    inp.seekg(0, ios::beg);
+
+    printf("%ld guests found:\n", number_accounts);
+    for(long i = 0; i < number_accounts; i++) {
+        guest_t get;
+
+        inp.read((char *) &get, sizeof(guest_t));
+
+        get.view_information();
+    }
+
+    inp.close();
+    if(!inp.good()) {
+        printf("Error reading file: %s", "guests_account.dat");
     }
 }

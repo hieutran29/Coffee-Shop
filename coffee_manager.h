@@ -44,6 +44,7 @@ public:
     void add_food(const product_t &);
 
     void show_product(COFFEE_PRODUCT);
+    void show_guest() const;
 
     void access();
 
