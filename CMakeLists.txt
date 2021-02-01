@@ -47,5 +47,6 @@ if(${BUILD_TESTING})
     add_test(NAME CoffeeNewAccountManager COMMAND new_account_manager_ut)
     add_test(NAME CoffeeSignInManager COMMAND sign_in_manager_ut)
     add_test(NAME AddDrink COMMAND add_drink_ut)
+    add_test(NAME AddFood COMMAND add_food_ut)
 endif()
 
