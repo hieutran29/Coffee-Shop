@@ -7,6 +7,13 @@
 
 using namespace std;
 
+
+enum COFFEE_PRODUCT {
+    COFFEE_DRINK = 1,
+    COFFEE_FOOD = 2
+};
+
+
 #if defined (_WIN32)
     #define file_drink \
         "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\product_drink.dat"
@@ -21,13 +28,11 @@ using namespace std;
 
 class product_t;
 
-bool existed_drink_in_file(const product_t &check);
-bool existed_food_in_file(const product_t &check);
+bool existed_in_file(const product_t &, COFFEE_PRODUCT);
 
 class product_t {
     friend class manager;
-    friend bool existed_drink_in_file(const product_t &check);
-    friend bool existed_food_in_file(const product_t &check);
+    friend bool existed_in_file(const product_t &, COFFEE_PRODUCT);
 
 public:
     product_t() = default;
