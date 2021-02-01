@@ -17,7 +17,7 @@ bool failed = false;
 
 
 int main() {
-    clear_file();
+    clear_file(file_manager);
 
     manager m;
 
