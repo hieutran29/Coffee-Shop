@@ -79,6 +79,7 @@ public:
     void add_drink(const product_t &);
 
     void add_food();
+    void add_food(const product_t &);
 
     void access();
 

@@ -150,6 +150,69 @@ void manager::add_drink(const product_t &drink) {
     }
 }
 
+
+void manager::add_food() {
+    product_t new_food;
+
+    printf("Enter Name of Food: ");
+    scanf(" %s", new_food.name);
+    printf("Enter quantity: ");
+    scanf("%u", &new_food.quantity);
+    printf("Enter price: ");
+    scanf("%lf", &new_food.price);
+
+    add_drink(new_food);
+}
+
+void manager::add_food(const product_t &food) {
+    if(!existed_food_in_file(food)) {
+        ofstream outp(file_food, ios::binary | ios::out | ios::app);
+
+        outp.write((char *) &food, sizeof(product_t));
+
+        outp.close();
+        if(!outp.good()) {
+            printf("Error occurs in writing file\n");
+        }
+    }
+    else {
+        ifstream inp(file_food, ios::in | ios::binary);
+
+        inp.seekg(0, ios::end);
+        long fileSize = inp.tellg();
+        long number_accounts = fileSize / sizeof(product_t);
+        inp.seekg(0, ios::beg);
+        
+        vector<product_t> product; 
+        for(int i = 0; i < number_accounts; i++) {
+            product_t get;
+
+            inp.read((char *) &get, sizeof(product_t));
+
+            if(strcmp(get.name, food.name) == 0) {
+                get.quantity += food.quantity;
+            }
+
+            product.push_back(get);
+        }
+
+        inp.close();
+        if(!inp.good()) {
+            printf("Error reading file: %s\n", "product_food.dat");
+        }
+
+        ofstream outp(file_food, ios::out | ios::binary | ios::trunc);
+        for(const product_t &p : product) {
+            outp.write((char *) &p, sizeof(product_t));
+        }
+
+        outp.close();
+        if(!outp.good()) {
+            printf("Error writing file");
+        }
+    }
+}
+
 char manager::access_menu() const {
     char choice;
     cout << "\nChoose 1 option:\n";
@@ -167,10 +230,10 @@ void manager::access() {
     do {
         choice = this->access_menu();
         if(choice == '1') {
-
+            add_drink();
         }
         else if(choice == '2') {
-
+            add_food();
         }
         else if(choice == '3') {
 
