@@ -41,7 +41,61 @@ manager account_m3();
 manager account_m4();
 
 
-void clear_file();
+
+
+/*-------------------------*/
+/*        TEST DRINK       */
+/*-------------------------*/
+
+/*
+    name: lemon_juice
+    quantity: 50
+    price: 1.5$
+*/
+product_t drink_1();
+
+
+/*
+    name: orange_juice
+    quantity: 100
+    price: 1.25$
+*/
+product_t drink_2();
+
+
+/*
+    name: watermelon_juice
+    quantity: 250
+    price: 2.5$
+*/
+product_t drink_3();
+
+
+/*
+    name: cappuccino
+    quantity: 500
+    price: 1.5$
+*/
+product_t drink_4();
+
+
+/*
+    name: lemon_juice
+    quantity: 150
+    price: 1.5$
+*/
+product_t drink_5();
+
+
+/*
+    name: watermelon_juice
+    quantity: 250
+    price: 2.5$
+*/
+product_t drink_6();
+
+
+void clear_file(const string &file);
 
 
 #endif  // TESTS_BASE_H_
