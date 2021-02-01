@@ -102,7 +102,7 @@ void manager::add_drink() {
 }
 
 void manager::add_drink(const product_t &drink) {
-    if(!existed_drink_in_file(drink)) {
+    if(!existed_in_file(drink, COFFEE_DRINK)) {
         ofstream outp(file_drink, ios::binary | ios::out | ios::app);
 
         outp.write((char *) &drink, sizeof(product_t));
@@ -165,7 +165,7 @@ void manager::add_food() {
 }
 
 void manager::add_food(const product_t &food) {
-    if(!existed_food_in_file(food)) {
+    if(!existed_in_file(food, COFFEE_FOOD)) {
         ofstream outp(file_food, ios::binary | ios::out | ios::app);
 
         outp.write((char *) &food, sizeof(product_t));
@@ -236,7 +236,8 @@ void manager::access() {
             add_food();
         }
         else if(choice == '3') {
-
+            show_product(COFFEE_DRINK);
+            show_product(COFFEE_FOOD);
         }
         else if(choice == '4') {
             
@@ -247,3 +248,33 @@ void manager::access() {
     } while(choice != '0');
 }
 
+
+void manager::show_product(COFFEE_PRODUCT type) {
+    ifstream inp;
+
+    if(type == COFFEE_DRINK) {
+        inp.open(file_drink, ios::in | ios::binary);
+    }
+    else if(type == COFFEE_FOOD) {
+        inp.open(file_food, ios::in | ios::binary);
+    }
+
+    inp.seekg(0, ios::end);
+    long fileSize = inp.tellg();
+    long number_accounts = fileSize / sizeof(product_t);
+    inp.seekg(0, ios::beg);
+
+    printf("%ld %s found:\n", number_accounts, (type == COFFEE_DRINK) ? "drinks" : "foods");
+    for(long i = 0; i < number_accounts; i++) {
+        product_t get;
+
+        inp.read((char *) &get, sizeof(product_t));
+
+        get.get();
+    }
+
+    inp.close();
+    if(!inp.good()) {
+        printf("Error reding file: %s\n", (type == COFFEE_DRINK) ? "product_drink.dat" : "product_food.dat");
+    }
+}

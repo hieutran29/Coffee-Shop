@@ -81,6 +81,8 @@ public:
     void add_food();
     void add_food(const product_t &);
 
+    void show_product(COFFEE_PRODUCT);
+
     void access();
 
     bool sign_in(manager &);
