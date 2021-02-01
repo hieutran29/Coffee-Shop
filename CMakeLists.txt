@@ -30,6 +30,7 @@ set(coffee_src
     coffee_manager.cpp
     coffee_system.cpp
     coffee_product.cpp
+    coffee_guest.cpp
 )
 
 set(coffee_inc
@@ -38,6 +39,8 @@ set(coffee_inc
     coffee_guest.h
     coffee_manager.h
     coffee_product.h
+    coffee_type.h
+    coffee_birth.h
 )
 
 add_library(coffee STATIC ${coffee_src})
@@ -48,5 +51,6 @@ if(${BUILD_TESTING})
     add_test(NAME CoffeeSignInManager COMMAND sign_in_manager_ut)
     add_test(NAME AddDrink COMMAND add_drink_ut)
     add_test(NAME AddFood COMMAND add_food_ut)
+    add_test(NAME CoffeeNewAccountGuest COMMAND new_account_guest_ut)
 endif()
 
