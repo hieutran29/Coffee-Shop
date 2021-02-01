@@ -54,7 +54,7 @@ int main() {
     clear_file(file_food);
 
     product_t p;
-    manager  m;
+    manager_t  m;
     
     p = product_t("Yogurts", 150, 1.5);
     m.add_food(p);

@@ -7,8 +7,8 @@
     name    : hieutran29
     dob     : 29/08/2001
 */
-manager account_m1() {
-    manager m("hieutran29", "hieutran29", "hieutran29", 
+manager_t account_m1() {
+    manager_t m("hieutran29", "hieutran29", "hieutran29", 
                 birth(29, 8, 2001));
     return m;
 }
@@ -19,8 +19,8 @@ manager account_m1() {
     name    : hieu29
     dob     : 29/08/2001
 */
-manager account_m2() {
-    manager m("hieu29", "hieu29", "hieu29",
+manager_t account_m2() {
+    manager_t m("hieu29", "hieu29", "hieu29",
                 birth(29, 8, 2001));
     return m;
 }
@@ -31,8 +31,8 @@ manager account_m2() {
     name    : hieutran29
     dob     : 29/08/2001
 */
-manager account_m3() {
-    manager m("hieutran29", "hieutran29", "hieutran29", 
+manager_t account_m3() {
+    manager_t m("hieutran29", "hieutran29", "hieutran29", 
                 birth(29, 8, 2001));
     return m;
 }
@@ -43,8 +43,8 @@ manager account_m3() {
     name    : hieu
     dob     : 29/08/2001
 */
-manager account_m4() {
-    manager m("hieu", "hieu", "hieu", 
+manager_t account_m4() {
+    manager_t m("hieu", "hieu", "hieu", 
                 birth(29, 8, 2001));
     return m;
 }

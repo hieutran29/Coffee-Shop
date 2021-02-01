@@ -9,7 +9,7 @@
     name    : hieutran29
     dob     : 29/08/2001
 */
-manager account_m1();
+manager_t account_m1();
 
 
 
@@ -19,7 +19,7 @@ manager account_m1();
     name    : hieu29
     dob     : 29/08/2001
 */
-manager account_m2();
+manager_t account_m2();
 
 
 
@@ -29,7 +29,7 @@ manager account_m2();
     name    : hieutran29
     dob     : 29/08/2001
 */
-manager account_m3();
+manager_t account_m3();
 
 
 /*
@@ -38,7 +38,7 @@ manager account_m3();
     name    : hieu
     dob     : 29/08/2001
 */
-manager account_m4();
+manager_t account_m4();
 
 
 

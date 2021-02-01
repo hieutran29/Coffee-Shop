@@ -19,7 +19,7 @@ bool failed = false;
 int main() {
     clear_file(file_manager);
 
-    manager m;
+    manager_t m;
 
     m = account_m1();
     if(existed_in_file(m)) {

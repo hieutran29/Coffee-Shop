@@ -45,29 +45,23 @@ bool test_drink_in_file() {
 int main() {
     clear_file(file_drink);
 
-    product_t p;
-    manager  m;
+    manager_t  m;
     
-    p = drink_1();
-    m.add_drink(p);
+    m.add_drink(product_t("lemon_juice", 50, 1.5));
 
-    p = drink_2();
-    m.add_drink(p);
+    m.add_drink(product_t("orange_juice", 100, 1.25));
 
-    p = drink_3();
-    m.add_drink(p);
+    m.add_drink(product_t("watermelon_juice", 250, 2.5));
 
-    p = drink_4();
-    m.add_drink(p);
+    m.add_drink(product_t("cappuccino", 500, 1.5));
 
-    p = drink_5();
-    m.add_drink(p);
+    m.add_drink(product_t("lemon_juice", 150, 1.5));
 
-    p = drink_6();
-    m.add_drink(p);
+    m.add_drink(product_t("watermelon_juice", 250, 2.5));
 
 
     if(!test_drink_in_file()) {
+        UT_MSG_FAILED("Test add drink");
         return 1;
     }
     UT_MSG_OK("Test add drink");

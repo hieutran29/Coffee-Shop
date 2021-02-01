@@ -30,7 +30,7 @@ system_t &system_t::sign_in_as_manager() {
     printf("Username: ");   cin >> username;
 
 
-    manager log_in(username);
+    manager_t log_in(username);
 
     bool retry = !existed_in_file(log_in);
     bool not_found = !existed_in_file(log_in);
@@ -46,7 +46,7 @@ system_t &system_t::sign_in_as_manager() {
         if(choice == 1) {
             printf("Re-enter username: ");  
             cin >> username;
-            log_in = manager(username);
+            log_in = manager_t(username);
             
             retry = !existed_in_file(log_in);
             not_found = true;
@@ -64,7 +64,7 @@ system_t &system_t::sign_in_as_manager() {
     printf("Password: ");
     cin >> password;
 
-    log_in = manager(username, password);
+    log_in = manager_t(username, password);
 
     while(!this->man.sign_in(log_in)) {
         printf("Wrong password\n1. Re-enter password\n0. Quit\n");
@@ -75,7 +75,7 @@ system_t &system_t::sign_in_as_manager() {
         }
         printf("Password: ");
         cin >> password;
-        log_in = manager(username, password);
+        log_in = manager_t(username, password);
     }
 
     this->man.access();

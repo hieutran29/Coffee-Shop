@@ -1,6 +1,6 @@
 #include "coffee_manager.h"
 
-bool existed_in_file(const manager &check) {
+bool existed_in_file(const manager_t &check) {
     bool ret = false;
     
     ifstream inp(file_manager, ios::in | ios::binary);
@@ -8,14 +8,14 @@ bool existed_in_file(const manager &check) {
     // count number of elements
     inp.seekg(0, ios::end);
     long fileSize = inp.tellg();
-    long number_accounts = fileSize / sizeof(manager);
+    long number_accounts = fileSize / sizeof(manager_t);
     inp.seekg(0, ios::beg);
 
 
     for(long i = 0; i < number_accounts; i++) {
-        manager compare;
+        manager_t compare;
     
-        inp.read((char *) &compare, sizeof(manager));
+        inp.read((char *) &compare, sizeof(manager_t));
 
         if(strcmp(compare.username, check.username) == 0) {
             ret = true;
@@ -25,7 +25,7 @@ bool existed_in_file(const manager &check) {
 }
 
 
-manager& manager::assign(const manager& rhs) {
+manager_t& manager_t::assign(const manager_t& rhs) {
     strcpy(username, rhs.username);
     strcpy(password, rhs.password);
     strcpy(name, rhs.name);
@@ -34,28 +34,28 @@ manager& manager::assign(const manager& rhs) {
 }
 
 
-manager &manager::new_account() {
+manager_t &manager_t::new_account() {
     string username = " ", password = " ", name = " ";
     int day = 0, month = 0, year = 0;
 
     do {
         printf("Enter username: ");
         cin >> username;
-    } while(existed_in_file(manager(username)));
+    } while(existed_in_file(manager_t(username)));
 
     printf("Password: ");   cin >> password;
     printf("Name: ");       cin >> name;
     printf("dd/mm/yyyy: "); scanf("%d%d%d", &day, &month, &year);
 
-    this->new_account(manager(username, password, name, 
+    this->new_account(manager_t(username, password, name, 
                         birth(day, month, year)));
     return *this;
 }
 
-void manager::new_account(const manager &new_acc) const {
+void manager_t::new_account(const manager_t &new_acc) const {
     ofstream outp(file_manager, ios::binary | ios::out | ios::app);
 
-    outp.write((char *) &new_acc, sizeof(manager));
+    outp.write((char *) &new_acc, sizeof(manager_t));
 
     outp.close();
     if(!outp.good()) {
@@ -63,25 +63,25 @@ void manager::new_account(const manager &new_acc) const {
     }
 }
 
-bool manager::sign_in(manager &man) {
+bool manager_t::sign_in(manager_t &man) {
     bool ret = false;
 
 
     ifstream inp(file_manager, ios::in | ios::binary);
     if(!inp) {
-        printf("%s: No file information\n", "manager_account.dat");
+        printf("%s: No file information\n", "manager_t_account.dat");
         ret = false;
     }
     else {
         inp.seekg(0, ios::end);
         long fileSize = inp.tellg();
-        long number_accounts = fileSize / sizeof(manager);
+        long number_accounts = fileSize / sizeof(manager_t);
         inp.seekg(0, ios::beg);
 
         for(long i = 0; i < number_accounts; i++) {
-            manager compare;
+            manager_t compare;
 
-            inp.read((char *) &compare, sizeof(manager));
+            inp.read((char *) &compare, sizeof(manager_t));
 
             if(strcmp(compare.username, man.username) == 0 &&
                 strcmp(compare.password, man.password) == 0) {
@@ -92,7 +92,7 @@ bool manager::sign_in(manager &man) {
         
         inp.close();
         if(!inp.good()) {
-            printf("Error occurs in reading file: %s\n", "manager_account.dat");
+            printf("Error occurs in reading file: %s\n", "manager_t_account.dat");
             ret = false;
         }
     }
@@ -101,7 +101,7 @@ bool manager::sign_in(manager &man) {
 }
 
 
-void manager::add_drink() {
+void manager_t::add_drink() {
     product_t new_drink;
 
     printf("Enter Name of Drink: ");
@@ -114,7 +114,7 @@ void manager::add_drink() {
     add_drink(new_drink);
 }
 
-void manager::add_drink(const product_t &drink) {
+void manager_t::add_drink(const product_t &drink) {
     if(!existed_in_file(drink, COFFEE_DRINK)) {
         ofstream outp(file_drink, ios::binary | ios::out | ios::app);
 
@@ -164,7 +164,7 @@ void manager::add_drink(const product_t &drink) {
 }
 
 
-void manager::add_food() {
+void manager_t::add_food() {
     product_t new_food;
 
     printf("Enter Name of Food: ");
@@ -177,7 +177,7 @@ void manager::add_food() {
     add_food(new_food);
 }
 
-void manager::add_food(const product_t &food) {
+void manager_t::add_food(const product_t &food) {
     if(!existed_in_file(food, COFFEE_FOOD)) {
         ofstream outp(file_food, ios::binary | ios::out | ios::app);
 
@@ -226,7 +226,7 @@ void manager::add_food(const product_t &food) {
     }
 }
 
-char manager::access_menu() const {
+char manager_t::access_menu() const {
     char choice;
     cout << "\nChoose 1 option:\n";
     printf("1. Add drink\n");
@@ -239,7 +239,7 @@ char manager::access_menu() const {
     return choice;
 }
 
-void manager::access() {
+void manager_t::access() {
     char choice;
     do {
         choice = this->access_menu();
@@ -263,7 +263,7 @@ void manager::access() {
 }
 
 
-void manager::show_product(COFFEE_PRODUCT type) {
+void manager_t::show_product(COFFEE_PRODUCT type) {
     ifstream inp;
 
     if(type == COFFEE_DRINK) {
@@ -293,7 +293,7 @@ void manager::show_product(COFFEE_PRODUCT type) {
     }
 }
 
-void manager::show_guest() const {
+void manager_t::show_guest() const {
     ifstream inp;
     inp.open(file_guest, ios::in | ios::binary);
 

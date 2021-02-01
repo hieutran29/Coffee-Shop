@@ -11,7 +11,7 @@ using namespace std;
 class system_t;
 
 class system_t {
-    friend class manager;
+    friend class manager_t;
 
 public:
     /* Constructor */
@@ -22,6 +22,6 @@ public:
     system_t& sign_in_as_manager();
 
 private:
-    manager man;
+    manager_t man;
     guest_t guest;
 };

@@ -5,9 +5,9 @@ bool failed = false;
 
 void test_1() {
     bool ret;
-    manager sign_in;
+    manager_t sign_in;
 
-    manager m("hieutran", "hieutran");
+    manager_t m("hieutran", "hieutran");
     ret = sign_in.sign_in(m);
 
     if(ret) {
@@ -24,9 +24,9 @@ void test_1() {
 
 void test_2() {
     bool ret;
-    manager sign_in;
+    manager_t sign_in;
 
-    manager m("hieu29", "hieu");
+    manager_t m("hieu29", "hieu");
     ret = sign_in.sign_in(m);
 
     if(ret) {
@@ -43,9 +43,9 @@ void test_2() {
 
 void test_3() {
     bool ret;
-    manager sign_in;
+    manager_t sign_in;
 
-    manager m = account_m1();
+    manager_t m = account_m1();
     ret = sign_in.sign_in(m);
 
     if(!ret) {
