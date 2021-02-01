@@ -87,6 +87,69 @@ bool manager::sign_in(manager &man) {
     return ret;
 }
 
+
+void manager::add_drink() {
+    product_t new_drink;
+
+    printf("Enter Name of Drink: ");
+    scanf(" %s", new_drink.name);
+    printf("Enter quantity: ");
+    scanf("%u", &new_drink.quantity);
+    printf("Enter price: ");
+    scanf("%lf", &new_drink.price);
+
+    add_drink(new_drink);
+}
+
+void manager::add_drink(const product_t &drink) {
+    if(!existed_drink_in_file(drink)) {
+        ofstream outp(file_drink, ios::binary | ios::out | ios::app);
+
+        outp.write((char *) &drink, sizeof(product_t));
+
+        outp.close();
+        if(!outp.good()) {
+            printf("Error occurs in writing file\n");
+        }
+    }
+    else {
+        ifstream inp(file_drink, ios::in | ios::binary);
+
+        inp.seekg(0, ios::end);
+        long fileSize = inp.tellg();
+        long number_accounts = fileSize / sizeof(product_t);
+        inp.seekg(0, ios::beg);
+        
+        vector<product_t> product; 
+        for(int i = 0; i < number_accounts; i++) {
+            product_t get;
+
+            inp.read((char *) &get, sizeof(product_t));
+
+            if(strcmp(get.name, drink.name) == 0) {
+                get.quantity += drink.quantity;
+            }
+
+            product.push_back(get);
+        }
+
+        inp.close();
+        if(!inp.good()) {
+            printf("Error reading file: %s\n", "product_drink.dat");
+        }
+
+        ofstream outp(file_drink, ios::out | ios::binary | ios::trunc);
+        for(const product_t &p : product) {
+            outp.write((char *) &p, sizeof(product_t));
+        }
+
+        outp.close();
+        if(!outp.good()) {
+            printf("Error writing file");
+        }
+    }
+}
+
 char manager::access_menu() const {
     char choice;
     cout << "\nChoose 1 option:\n";

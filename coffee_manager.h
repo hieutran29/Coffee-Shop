@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstring>
 
+#include "coffee_product.h"
 
 using namespace std;
 
@@ -73,11 +74,17 @@ public:
 
     /* Functions */
     manager& assign(const manager& rhs);
+
     void add_drink();
+    void add_drink(const product_t &);
+
     void add_food();
+
     void access();
+
     bool sign_in(manager &);
     void new_account();
+    
     void get() const {
         printf("Name: %s\nPassword: %s\nName: %s\n", username,
                             password, name);
