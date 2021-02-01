@@ -7,15 +7,7 @@
 
 
 class guest_t;
-
-#if defined (_WIN32)
-    #define file_guest \
-         "C:\\Users\\ADMIN\\OneDrive\\Code\\Coffee-Shop\\data\\guests_account.dat" 
-#elif defined (__linux__)
-    #define file_guest \
-         "/home/hieutran/Coding/Coffee_Project/data/guests_account.dat" 
          
-#endif
 
 struct visit {
 
@@ -59,6 +51,8 @@ public:
 
     /* Functions */
     void view_information() const;
+
+    guest_t &modify_information();
 
     guest_t &new_account();
     void new_account(const guest_t &) const;
