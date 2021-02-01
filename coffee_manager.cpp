@@ -25,11 +25,6 @@ bool existed_in_file(const manager &check) {
 }
 
 
-void birth::get() const {
-    cout << this->day << " " << this->month
-        << " " << this->year;
-}
-
 manager& manager::assign(const manager& rhs) {
     strcpy(username, rhs.username);
     strcpy(password, rhs.password);

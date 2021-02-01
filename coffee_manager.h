@@ -4,9 +4,8 @@
 #include <fstream>
 #include <cstring>
 
-#include "coffee_product.h"
+#include "coffee_guest.h"
 
-using namespace std;
 
 class manager;
 
@@ -18,34 +17,6 @@ class manager;
          "/home/hieutran/Coding/Coffee_Project/data/manager_account.dat" 
          
 #endif
-
-class birth {
-    friend class manager;
-
-public:
-    birth() = default;
-
-    birth(int d, int m, int y) : day(d), month(m), year(y) { }
-
-    /* Function */
-    birth& add() {
-        printf("dd/mm/yyyy:");
-        cin >> day >> month >> year;
-        return *this;
-    }
-
-    birth& assign(const birth & b) {
-        day = b.day;
-        month = b.month;
-        year = b.year;
-        return *this;
-    }
-    void get() const;
-
-private:
-    
-    int day, month, year;
-};
 
 
 bool existed_in_file(const manager &);
