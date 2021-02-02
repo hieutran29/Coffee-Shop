@@ -49,6 +49,8 @@ manager_t &manager_t::new_account() {
 
     this->new_account(manager_t(username, password, name, 
                         birth(day, month, year)));
+    *this = manager_t(username, password, name, 
+                    birth(day, month, year));
     return *this;
 }
 
@@ -63,13 +65,49 @@ void manager_t::new_account(const manager_t &new_acc) const {
     }
 }
 
+bool manager_t::sign_in() {
+    manager_t log_in;
+
+    printf("Enter username: ");
+    scanf(" %s", log_in.username);
+    printf("Enter password: ");
+    scanf(" %s", log_in.password);
+
+    while( !sign_in(log_in) ) {
+        printf("Invalid Account. Log in failed\n");
+        printf("Choose 1 option:\n");
+        printf("1. Retry\n2. Sign up\n0. Quit\n");
+
+        int choice;
+        printf("Your choice: ");
+        cin >> choice;
+
+        if(choice == 1) {
+            printf("Enter username: ");
+            scanf(" %s", log_in.name);
+            printf("Enter password: ");
+            scanf(" %s", log_in.password);
+        }
+        else if(choice == 2) {
+            this->new_account();
+            log_in = *this;
+        }
+        else if(choice == 0) {
+            printf("......\n");
+            return false;
+        }
+    }
+
+    return this->sign_in(log_in);
+}
+
 bool manager_t::sign_in(manager_t &man) {
     bool ret = false;
 
 
     ifstream inp(file_manager, ios::in | ios::binary);
     if(!inp) {
-        printf("%s: No file information\n", "manager_t_account.dat");
+        printf("%s: No file information\n", "manager_account.dat");
         ret = false;
     }
     else {
@@ -92,7 +130,7 @@ bool manager_t::sign_in(manager_t &man) {
         
         inp.close();
         if(!inp.good()) {
-            printf("Error occurs in reading file: %s\n", "manager_t_account.dat");
+            printf("Error occurs in reading file: %s\n", "manager_account.dat");
             ret = false;
         }
     }
@@ -101,7 +139,7 @@ bool manager_t::sign_in(manager_t &man) {
 }
 
 
-void manager_t::add_drink() {
+void manager_t::add_drink() const {
     product_t new_drink;
 
     printf("Enter Name of Drink: ");
@@ -114,7 +152,7 @@ void manager_t::add_drink() {
     add_drink(new_drink);
 }
 
-void manager_t::add_drink(const product_t &drink) {
+void manager_t::add_drink(const product_t &drink) const {
     if(!existed_in_file(drink, COFFEE_DRINK)) {
         ofstream outp(file_drink, ios::binary | ios::out | ios::app);
 
@@ -164,7 +202,7 @@ void manager_t::add_drink(const product_t &drink) {
 }
 
 
-void manager_t::add_food() {
+void manager_t::add_food() const {
     product_t new_food;
 
     printf("Enter Name of Food: ");
@@ -177,7 +215,7 @@ void manager_t::add_food() {
     add_food(new_food);
 }
 
-void manager_t::add_food(const product_t &food) {
+void manager_t::add_food(const product_t &food) const {
     if(!existed_in_file(food, COFFEE_FOOD)) {
         ofstream outp(file_food, ios::binary | ios::out | ios::app);
 
