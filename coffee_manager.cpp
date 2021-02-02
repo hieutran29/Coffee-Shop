@@ -84,7 +84,7 @@ bool manager_t::sign_in() {
 
         if(choice == 1) {
             printf("Enter username: ");
-            scanf(" %s", log_in.name);
+            scanf(" %s", log_in.username);
             printf("Enter password: ");
             scanf(" %s", log_in.password);
         }

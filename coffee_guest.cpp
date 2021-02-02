@@ -141,7 +141,71 @@ bool guest_t::sign_in(const guest_t &sign) {
 }
 
 guest_t &guest_t::modify_information() {
+    vector<guest_t> all_guests;
+
+    ifstream inp(file_guest, ios::in | ios::binary);
+
+    // count number of elements
+    inp.seekg(0, ios::end);
+    long fileSize = inp.tellg();
+    long number_accounts = fileSize / sizeof(guest_t);
+    inp.seekg(0, ios::beg);
+
+
+    for(long i = 0; i < number_accounts; i++) {
+        guest_t get;
     
+        inp.read((char *) &get, sizeof(guest_t));
+
+        if(strcmp(get.name, this->name) == 0) {
+            get = *this;
+
+            int choice;
+            printf("Choose a field to change:\n");
+
+            do {
+                printf("\t1. Password: \n");
+                printf("\t2. Date of birth: \n");
+                printf("\t0. Quit editing\n");
+                printf("Choose: ");
+                cin >> choice;
+
+                if(choice == 0) {
+                    printf("Quit editing...\n");
+                    break;
+                }
+                if(choice == 1) {
+                    printf("New password: ");
+                    scanf(" %s", get.password);
+                }
+                else if(choice == 2) {
+                    printf("New date of birth (in dd/mm/yyyy):");
+                    get.dob.add();
+                }
+            } while(choice != 0);
+
+            *this = get;
+        }
+        all_guests.push_back(get);
+    }
+    inp.close();
+    if(!inp.good()) {
+        printf("Error reading file: %s\n", "guest_account.dat");
+    }
+
+    // renew the file
+    ofstream outp(file_guest, ios::binary | ios::out | ios::trunc);
+
+    for(const auto &g : all_guests) {
+        outp.write((char *) &g, sizeof(guest_t));
+    }
+
+    outp.close();
+    if(!outp.good()) {
+        printf("Error writing file: %s\n", "manager_account.dat");
+    }
+
+    return *this;
 }
 
 void guest_t::operation() {
