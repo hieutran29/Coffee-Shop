@@ -13,9 +13,9 @@ system_t &system_t::sign_in() {
             this->sign_in_as_manager();
         }
         else if(choice == COFFEE_GUEST) {
-
+            this->sign_in_as_guest();
         }
-        else {
+        else if(choice == 0) {
             printf("Good bye");
         }
     } while(choice != 0);
@@ -29,5 +29,12 @@ system_t &system_t::sign_in_as_manager() {
         man.access();
     }
 
+    return *this;
+}
+
+system_t &system_t::sign_in_as_guest() {
+    
+    guest.menu();
+    guest.view_information();
     return *this;
 }

@@ -20,6 +20,7 @@ public:
     /* Function */
     system_t& sign_in();
     system_t& sign_in_as_manager();
+    system_t& sign_in_as_guest();
 
 private:
     manager_t man;

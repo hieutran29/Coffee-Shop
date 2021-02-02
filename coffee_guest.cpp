@@ -41,7 +41,7 @@ void guest_t::view_information() const {
 
 
 guest_t &guest_t::new_account() {
-    string username = " ", password = " ", name = " ";
+    string username = " ", password = " ";
     int day = 0, month = 0, year = 0;
 
     do {
@@ -50,11 +50,12 @@ guest_t &guest_t::new_account() {
     } while(existed_in_file(guest_t(username)));
 
     printf("Password: ");   cin >> password;
-    printf("Name: ");       cin >> name;
     printf("dd/mm/yyyy: "); scanf("%d%d%d", &day, &month, &year);
 
     this->new_account(guest_t(username, password, 
                     birth(day, month, year), vector<visit> (), 0));
+    *this = guest_t(username, password, birth(day, month, year), 
+                        vector<visit> (), 0);
     return *this;
 }
 
@@ -69,12 +70,46 @@ void guest_t::new_account(const guest_t &new_acc) const {
     }
 }
 
+void guest_t::sign_in() {
+    guest_t log_in;
+
+    printf("Enter username: ");
+    scanf(" %s", log_in.name);
+    printf("Enter password: ");
+    scanf(" %s", log_in.password);
+
+    while( !sign_in(log_in) ) {
+        printf("Invalid Account. Log in failed\n");
+        printf("Choose 1 option:\n");
+        printf("1. Retry\n2. Sign up\n0. Quit\n");
+
+        int choice;
+        printf("Your choice: ");
+        cin >> choice;
+
+        if(choice == 1) {
+            printf("Enter username: ");
+            scanf(" %s", log_in.name);
+            printf("Enter password: ");
+            scanf(" %s", log_in.password);
+        }
+        else if(choice == 2) {
+            this->new_account();
+            log_in = *this;
+        }
+        else if(choice == 0) {
+            printf("......\n");
+            return ;
+        }
+    }
+}
+
 bool guest_t::sign_in(const guest_t &sign) {
     bool ret = false;
 
     ifstream inp(file_guest, ios::in | ios::binary);
     if(!inp) {
-        printf("%s: No file information\n", "guests_account.dat");
+        printf("%s: No file information\n", "guest_account.dat");
         ret = false;
     }
     else {
@@ -90,7 +125,7 @@ bool guest_t::sign_in(const guest_t &sign) {
 
             if(strcmp(compare.name, sign.name) == 0 &&
                 strcmp(compare.password, sign.password) == 0) {
-                *this = sign;
+                *this = compare;
                 ret = true;
             }
         }
@@ -103,4 +138,56 @@ bool guest_t::sign_in(const guest_t &sign) {
     }
 
     return ret;
+}
+
+guest_t &guest_t::modify_information() {
+    
+}
+
+void guest_t::operation() {
+    int choice;
+    do {
+        cout << "\nChoose 1 option:\n";
+        printf("1. View my information\n");
+        printf("2. Modify my information\n");
+        printf("0. Quit\n");
+        printf("Your choice: ");
+        cin >> choice; 
+
+        switch(choice) {
+            case 1:
+                view_information();
+                break;
+            case 2:
+                modify_information();
+                break;
+            case 0:
+                printf(".....\n");
+                break;
+        }
+    } while(choice != 0);
+}
+
+
+void guest_t::menu() {
+    int choice;
+    do {
+        cout << "\nChoose 1 option:\n";
+        printf("1. Sign in as a member\n");
+        printf("2. Order food and drink\n");
+        printf("0. Quit\n");
+        printf("Your choice: ");
+        cin >> choice;
+
+        if(choice == 1) {
+            sign_in();
+            operation();
+        }
+        else if(choice == 2) {
+            
+        }
+        else if(choice == 0) {
+            printf("Sign out...\n");
+        }
+    } while(choice != 0);
 }

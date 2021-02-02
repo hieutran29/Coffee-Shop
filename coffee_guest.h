@@ -50,6 +50,8 @@ public:
             : guest_t(n, " ", birth(0, 0, 0), vector<visit> (), 0) { }
 
     /* Functions */
+    void menu();
+
     void view_information() const;
 
     guest_t &modify_information();
@@ -57,11 +59,14 @@ public:
     guest_t &new_account();
     void new_account(const guest_t &) const;
     
+    void sign_in();
     bool sign_in(const guest_t &);
 
     void order(const product_t &);
 
 private:
+    void operation();
+    
     char name[101], password[101];
     birth dob;
     vector<visit> visit_detail;

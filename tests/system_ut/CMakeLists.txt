@@ -1,3 +1,5 @@
 add_executable(system_sign_in_manager_ut system_sign_in_manager.cpp)
+add_executable(system_sign_in_ut system_sign_in.cpp)
 
 target_link_libraries(system_sign_in_manager_ut ut_base coffee)
+target_link_libraries(system_sign_in_ut ut_base coffee)
