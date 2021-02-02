@@ -37,24 +37,25 @@ public:
     /* Functions */
     manager_t& assign(const manager_t& rhs);
 
-    void add_drink();
-    void add_drink(const product_t &);
+    void add_drink() const;
+    void add_drink(const product_t &) const;
 
-    void add_food();
-    void add_food(const product_t &);
+    void add_food() const;
+    void add_food(const product_t &) const;
 
     void show_product(COFFEE_PRODUCT);
     void show_guest() const;
 
     void access();
 
+    bool sign_in();
     bool sign_in(manager_t &);
 
     manager_t &new_account();
     void new_account(const manager_t &) const;
     
     void get() const {
-        printf("Name: %s\nPassword: %s\nName: %s\n", username,
+        printf("Username: %s\nPassword: %s\nName: %s\n", username,
                             password, name);
         dob.get();
         printf("\n");
