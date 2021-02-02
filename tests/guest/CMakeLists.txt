@@ -1,3 +1,5 @@
 add_executable(new_account_guest_ut new_account_guest.cpp)
+add_executable(sign_in_guest_ut sign_in_guest.cpp)
 
 target_link_libraries(new_account_guest_ut ut_base coffee)
+target_link_libraries(sign_in_guest_ut ut_base coffee)

@@ -52,5 +52,6 @@ if(${BUILD_TESTING})
     add_test(NAME AddDrink COMMAND add_drink_ut)
     add_test(NAME AddFood COMMAND add_food_ut)
     add_test(NAME CoffeeNewAccountGuest COMMAND new_account_guest_ut)
+    add_test(NAME CoffeeSignInGuest COMMAND sign_in_guest_ut)
 endif()
 
