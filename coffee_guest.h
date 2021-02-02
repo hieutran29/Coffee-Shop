@@ -62,7 +62,7 @@ public:
     void sign_in();
     bool sign_in(const guest_t &);
 
-    void order(const product_t &);
+    void order();
 
 private:
     void operation();

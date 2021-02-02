@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <vector>
 
 #include "file.h"
 
@@ -19,10 +20,15 @@ enum COFFEE_PRODUCT {
 class product_t;
 
 bool existed_in_file(const product_t &, COFFEE_PRODUCT);
+void write_new_file(const vector<product_t> &, COFFEE_PRODUCT);
+void print_product(COFFEE_PRODUCT);
+std::vector<product_t> get_all_product(COFFEE_PRODUCT);
 
 class product_t {
     friend class manager;
     friend bool existed_in_file(const product_t &, COFFEE_PRODUCT);
+    friend void print_product(COFFEE_PRODUCT);
+    friend std::vector<product_t> get_all_product(COFFEE_PRODUCT);
 
 public:
     product_t() = default;
@@ -34,9 +40,10 @@ public:
     }
 
     /* Functions */
-    void get() {
-        cout << name << " " << quantity << " " << price << endl;
+    void get() const {
+        std::cout << name << " " << quantity << " " << price;
     }
+
 
 public:
     char name[101];

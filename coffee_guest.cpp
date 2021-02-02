@@ -232,6 +232,65 @@ void guest_t::operation() {
     } while(choice != 0);
 }
 
+void guest_t::order() {
+    product_t ordered;
+
+    printf("We have:\n");
+    print_product(COFFEE_DRINK);
+    printf("--------\n");
+    print_product(COFFEE_FOOD);
+
+    vector<product_t> all_drinks = get_all_product(COFFEE_DRINK);
+    vector<product_t> all_foods = get_all_product(COFFEE_FOOD);
+
+    printf("Enter product you want to order: ");
+    scanf(" %s", ordered.name);
+
+    for(auto &v : all_drinks) {
+        if(strcmp(v.name, ordered.name) == 0) {
+            printf("Enter quantity: ");
+            scanf("%u", &ordered.quantity);
+
+            if(v.quantity >= ordered.quantity) {
+                v.quantity -= ordered.quantity;
+            }
+            else {
+                do {
+                    printf("Sorry. We only have %u %s left.\n",
+                            v.quantity, v.name);
+                    printf("Enter new quantity: ");
+                    scanf("%u", &ordered.quantity);
+                } while(v.quantity < ordered.quantity);
+            }
+
+            break;
+        }
+    }
+    for(auto &v : all_foods) {
+        if(strcmp(v.name, ordered.name) == 0) {
+            printf("Enter quantity: ");
+            scanf("%u", &ordered.quantity);
+
+            if(v.quantity >= ordered.quantity) {
+                v.quantity -= ordered.quantity;
+            }
+            else {
+                do {
+                    printf("Sorry. We only have %u %s left.",
+                            v.quantity, v.name);
+                    printf("Enter new quantity: ");
+                    scanf("%u", &ordered.quantity);
+                } while(v.quantity < ordered.quantity);
+            }
+            
+            break;
+        }
+    }
+    
+    write_new_file(all_drinks, COFFEE_DRINK);
+    write_new_file(all_foods, COFFEE_FOOD);
+}
+
 
 void guest_t::menu() {
     int choice;
@@ -248,7 +307,7 @@ void guest_t::menu() {
             operation();
         }
         else if(choice == 2) {
-            
+            order();
         }
         else if(choice == 0) {
             printf("Sign out...\n");

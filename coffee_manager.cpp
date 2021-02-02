@@ -323,6 +323,7 @@ void manager_t::show_product(COFFEE_PRODUCT type) {
         inp.read((char *) &get, sizeof(product_t));
 
         get.get();
+        printf("\n");
     }
 
     inp.close();

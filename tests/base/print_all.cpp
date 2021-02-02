@@ -69,6 +69,7 @@ int main(int argc, char * argv[]) {
             inp.read((char *) &compare, size);
 
             compare.get();
+            printf("\n");
         }
     }
 

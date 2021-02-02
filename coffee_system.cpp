@@ -35,6 +35,5 @@ system_t &system_t::sign_in_as_manager() {
 system_t &system_t::sign_in_as_guest() {
     
     guest.menu();
-    guest.view_information();
     return *this;
 }
