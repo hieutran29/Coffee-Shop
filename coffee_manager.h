@@ -38,10 +38,8 @@ public:
     manager_t& assign(const manager_t& rhs);
 
     void add_drink() const;
-    void add_drink(const product_t &) const;
-
     void add_food() const;
-    void add_food(const product_t &) const;
+    void add_product(const product_t &, COFFEE_PRODUCT) const;
 
     void show_product(COFFEE_PRODUCT);
     void show_guest() const;

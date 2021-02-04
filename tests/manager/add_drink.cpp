@@ -47,17 +47,17 @@ int main() {
 
     manager_t  m;
     
-    m.add_drink(product_t("lemon_juice", 50, 1.5));
+    m.add_product(product_t("lemon_juice", 50, 1.5), COFFEE_DRINK);
 
-    m.add_drink(product_t("orange_juice", 100, 1.25));
+    m.add_product(product_t("orange_juice", 100, 1.25), COFFEE_DRINK);
 
-    m.add_drink(product_t("watermelon_juice", 250, 2.5));
+    m.add_product(product_t("watermelon_juice", 250, 2.5), COFFEE_DRINK);
 
-    m.add_drink(product_t("cappuccino", 500, 1.5));
+    m.add_product(product_t("cappuccino", 500, 1.5), COFFEE_DRINK);
 
-    m.add_drink(product_t("lemon_juice", 150, 1.5));
+    m.add_product(product_t("lemon_juice", 150, 1.5), COFFEE_DRINK);
 
-    m.add_drink(product_t("watermelon_juice", 250, 2.5));
+    m.add_product(product_t("watermelon_juice", 250, 2.5), COFFEE_DRINK);
 
 
     if(!test_drink_in_file()) {

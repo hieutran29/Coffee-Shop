@@ -149,56 +149,7 @@ void manager_t::add_drink() const {
     printf("Enter price: ");
     scanf("%lf", &new_drink.price);
 
-    add_drink(new_drink);
-}
-
-void manager_t::add_drink(const product_t &drink) const {
-    if(!existed_in_file(drink, COFFEE_DRINK)) {
-        ofstream outp(file_drink, ios::binary | ios::out | ios::app);
-
-        outp.write((char *) &drink, sizeof(product_t));
-
-        outp.close();
-        if(!outp.good()) {
-            printf("Error occurs in writing file\n");
-        }
-    }
-    else {
-        ifstream inp(file_drink, ios::in | ios::binary);
-
-        inp.seekg(0, ios::end);
-        long fileSize = inp.tellg();
-        long number_accounts = fileSize / sizeof(product_t);
-        inp.seekg(0, ios::beg);
-        
-        vector<product_t> product; 
-        for(int i = 0; i < number_accounts; i++) {
-            product_t get;
-
-            inp.read((char *) &get, sizeof(product_t));
-
-            if(strcmp(get.name, drink.name) == 0) {
-                get.quantity += drink.quantity;
-            }
-
-            product.push_back(get);
-        }
-
-        inp.close();
-        if(!inp.good()) {
-            printf("Error reading file: %s\n", "product_drink.dat");
-        }
-
-        ofstream outp(file_drink, ios::out | ios::binary | ios::trunc);
-        for(const product_t &p : product) {
-            outp.write((char *) &p, sizeof(product_t));
-        }
-
-        outp.close();
-        if(!outp.good()) {
-            printf("Error writing file");
-        }
-    }
+    add_product(new_drink, COFFEE_DRINK);
 }
 
 
@@ -212,55 +163,26 @@ void manager_t::add_food() const {
     printf("Enter price: ");
     scanf("%lf", &new_food.price);
 
-    add_food(new_food);
+    add_product(new_food, COFFEE_FOOD);
 }
 
-void manager_t::add_food(const product_t &food) const {
-    if(!existed_in_file(food, COFFEE_FOOD)) {
-        ofstream outp(file_food, ios::binary | ios::out | ios::app);
+void manager_t::add_product(const product_t &product,
+                            COFFEE_PRODUCT type) const {
 
-        outp.write((char *) &food, sizeof(product_t));
-
-        outp.close();
-        if(!outp.good()) {
-            printf("Error occurs in writing file\n");
-        }
+    if(!existed_in_file(product, type)) {
+        write_file(vector<product_t> (1, product), type,
+                        FILE_APPEND);
     }
     else {
-        ifstream inp(file_food, ios::in | ios::binary);
+        vector<product_t> all_products;
+        all_products = get_all_product(type);
 
-        inp.seekg(0, ios::end);
-        long fileSize = inp.tellg();
-        long number_accounts = fileSize / sizeof(product_t);
-        inp.seekg(0, ios::beg);
-        
-        vector<product_t> product; 
-        for(int i = 0; i < number_accounts; i++) {
-            product_t get;
-
-            inp.read((char *) &get, sizeof(product_t));
-
-            if(strcmp(get.name, food.name) == 0) {
-                get.quantity += food.quantity;
+        for(auto &v : all_products) {
+            if(strcmp(v.name, product.name) == 0) {
+                v.quantity += product.quantity;
             }
-
-            product.push_back(get);
         }
-
-        inp.close();
-        if(!inp.good()) {
-            printf("Error reading file: %s\n", "product_food.dat");
-        }
-
-        ofstream outp(file_food, ios::out | ios::binary | ios::trunc);
-        for(const product_t &p : product) {
-            outp.write((char *) &p, sizeof(product_t));
-        }
-
-        outp.close();
-        if(!outp.good()) {
-            printf("Error writing file");
-        }
+        write_file(all_products, type, FILE_TRUNCATE);
     }
 }
 
@@ -316,7 +238,8 @@ void manager_t::show_product(COFFEE_PRODUCT type) {
     long number_accounts = fileSize / sizeof(product_t);
     inp.seekg(0, ios::beg);
 
-    printf("%ld %s found:\n", number_accounts, (type == COFFEE_DRINK) ? "drinks" : "foods");
+    printf("%ld %s found:\n", number_accounts, 
+                (type == COFFEE_DRINK) ? "drinks" : "foods");
     for(long i = 0; i < number_accounts; i++) {
         product_t get;
 
@@ -328,7 +251,8 @@ void manager_t::show_product(COFFEE_PRODUCT type) {
 
     inp.close();
     if(!inp.good()) {
-        printf("Error reding file: %s\n", (type == COFFEE_DRINK) ? "product_drink.dat" : "product_food.dat");
+        printf("Error reding file: %s\n", 
+            (type == COFFEE_DRINK) ? "product_drink.dat" : "product_food.dat");
     }
 }
 

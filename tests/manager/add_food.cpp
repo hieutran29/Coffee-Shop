@@ -57,31 +57,31 @@ int main() {
     manager_t  m;
     
     p = product_t("Yogurts", 150, 1.5);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Donuts", 100, 1.0);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Donuts", 150, 1.0);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Ice-cream", 450, 1.5);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Sandwiches", 500, 3.0);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Croissants", 300, 2.5);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Macarons", 300, 1.5);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Croissants", 700, 2.5);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     p = product_t("Sandwiches", 500, 2.5);
-    m.add_food(p);
+    m.add_product(p, COFFEE_FOOD);
 
     if(!test_food_in_file()) {
         return 1;

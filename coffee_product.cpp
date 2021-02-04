@@ -2,7 +2,6 @@
 
 
 bool existed_in_file(const product_t &check, COFFEE_PRODUCT type) {
-    bool ret = false;
     ifstream inp;
 
     if(type == COFFEE_DRINK) {
@@ -12,28 +11,15 @@ bool existed_in_file(const product_t &check, COFFEE_PRODUCT type) {
         inp.open(file_food, ios::in | ios::binary);
     }
 
-    inp.seekg(0, ios::end);
-    long fileSize = inp.tellg();
-    long number_accounts = fileSize / sizeof(product_t);
-    inp.seekg(0, ios::beg);
+    vector<product_t> all_products = get_all_product(type);
 
-    for(long i = 0; i < number_accounts; i++) {
-        product_t get;
-
-        inp.read((char *) &get, sizeof(product_t));
-
-        if(strcmp(get.name, check.name) == 0) {
-            ret = true;
+    for(const auto &v : all_products) {
+        if(strcmp(v.name, check.name) == 0) {
+            return true;
         }
     }
-
-    inp.close();
-    if(!inp.good()) {
-        printf("Error reding file: %s\n", (type == COFFEE_DRINK) ? 
-                        "product_drink.dat" : "product_food.dat");
-    }
-
-    return ret;
+    
+    return false;
 }
 
 void print_product(COFFEE_PRODUCT type) {
@@ -63,14 +49,18 @@ void print_product(COFFEE_PRODUCT type) {
     } 
 }
 
-void write_new_file(const vector<product_t> &src, COFFEE_PRODUCT type) {
+void write_file(const vector<product_t> &src, 
+                COFFEE_PRODUCT type,
+                FILE_OPERATION mode) {
     ofstream outp;
 
     if(type == COFFEE_DRINK) {
-        outp.open(file_drink, ios::out | ios::binary | ios::trunc);
+        outp.open(file_drink, ios::out | ios::binary | 
+                    (mode == FILE_TRUNCATE ? ios::trunc : ios::app));
     }
     else if(type == COFFEE_FOOD) {
-        outp.open(file_food, ios::in | ios::binary | ios::trunc);
+        outp.open(file_food, ios::in | ios::binary |
+                    (mode == FILE_TRUNCATE ? ios::trunc : ios::app));
     }
 
     for(const auto &v : src) {

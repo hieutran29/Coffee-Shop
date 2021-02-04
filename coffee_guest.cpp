@@ -24,16 +24,56 @@ bool existed_in_file(const guest_t &check) {
     return ret;
 }
 
+void write_file(const vector<guest_t> &all_guests, 
+                    FILE_OPERATION mode) {
+
+    ofstream outp;
+    
+    if(mode == FILE_TRUNCATE) {
+        outp.open(file_guest, ios::binary | ios::out | ios::trunc);
+    }
+    else if(mode == FILE_APPEND) {
+        outp.open(file_guest, ios::binary | ios::out | ios::app);
+    }
+
+    for(const auto &g : all_guests) {
+        outp.write((char *) &g, sizeof(guest_t));
+    }
+
+    outp.close();
+    if(!outp.good()) {
+        printf("Error writing file: %s\n", "manager_account.dat");
+    }
+}
+
+vector<guest_t> get_all_guests() {
+
+    ifstream inp(file_guest, ios::in | ios::binary);
+
+    inp.seekg(0, ios::end);
+    long fileSize = inp.tellg();
+    long number_accounts = fileSize / sizeof(guest_t);
+    inp.seekg(0, ios::beg);
+
+    vector<guest_t> ret(number_accounts);
+    for(int i = 0; i < number_accounts; i++) {
+        inp.read((char *) &ret[i], sizeof(guest_t));
+    }
+
+    inp.close();
+    
+    return ret;
+}
+
 
 void guest_t::view_information() const {
     printf("Name: %s\n", name);
     dob.get();
     printf("\n");
-    time_visit = visit_detail.size();
-    printf("%u visits:", visit_detail.size());
-    for(unsigned i = 1; i <= time_visit; i++) {
-        printf("#%d:\n", i);
-        visit_detail[i].get();
+    printf("%u purchases:", purchase_detail.size());
+    for(unsigned i = 0; i < purchase_detail.size(); i++) {
+        printf("#%d:\n", i+1);
+        purchase_detail[i].get();
         printf("\n");
     }   
     printf("\n");
@@ -53,21 +93,14 @@ guest_t &guest_t::new_account() {
     printf("dd/mm/yyyy: "); scanf("%d%d%d", &day, &month, &year);
 
     this->new_account(guest_t(username, password, 
-                    birth(day, month, year), vector<visit> (), 0));
+                    birth(day, month, year), vector<purchase> ()));
     *this = guest_t(username, password, birth(day, month, year), 
-                        vector<visit> (), 0);
+                        vector<purchase> ());
     return *this;
 }
 
 void guest_t::new_account(const guest_t &new_acc) const {
-    ofstream outp(file_guest, ios::binary | ios::out | ios::app);
-
-    outp.write((char *) &new_acc, sizeof(guest_t));
-
-    outp.close();
-    if(!outp.good()) {
-        printf("Error occurs in writing file\n");
-    }
+    write_file(vector<guest_t> (1, new_acc), FILE_APPEND);
 }
 
 void guest_t::sign_in() {
@@ -107,58 +140,24 @@ void guest_t::sign_in() {
 bool guest_t::sign_in(const guest_t &sign) {
     bool ret = false;
 
-    ifstream inp(file_guest, ios::in | ios::binary);
-    if(!inp) {
-        printf("%s: No file information\n", "guest_account.dat");
-        ret = false;
-    }
-    else {
-        inp.seekg(0, ios::end);
-        long fileSize = inp.tellg();
-        long number_accounts = fileSize / sizeof(guest_t);
-        inp.seekg(0, ios::beg);
+    vector<guest_t> all_guests = get_all_guests();
 
-        for(long i = 0; i < number_accounts; i++) {
-            guest_t compare;
-
-            inp.read((char *) &compare, sizeof(guest_t));
-
-            if(strcmp(compare.name, sign.name) == 0 &&
-                strcmp(compare.password, sign.password) == 0) {
-                *this = compare;
-                ret = true;
-            }
-        }
-        
-        inp.close();
-        if(!inp.good()) {
-            printf("Error occurs in reading file: %s\n", "guests_account.dat");
-            ret = false;
+    for(const guest_t &v : all_guests) {
+        if(strcmp(v.name, sign.name) == 0 &&
+            strcmp(v.password, sign.password) == 0) {
+            *this = v;
+            ret = true;
         }
     }
-
     return ret;
 }
 
 guest_t &guest_t::modify_information() {
-    vector<guest_t> all_guests;
+    vector<guest_t> all_guests = get_all_guests();
 
-    ifstream inp(file_guest, ios::in | ios::binary);
-
-    // count number of elements
-    inp.seekg(0, ios::end);
-    long fileSize = inp.tellg();
-    long number_accounts = fileSize / sizeof(guest_t);
-    inp.seekg(0, ios::beg);
-
-
-    for(long i = 0; i < number_accounts; i++) {
-        guest_t get;
-    
-        inp.read((char *) &get, sizeof(guest_t));
-
-        if(strcmp(get.name, this->name) == 0) {
-            get = *this;
+    for(auto &v : all_guests) {
+        if(strcmp(v.name, this->name) == 0) {
+            v = *this;
 
             int choice;
             printf("Choose a field to change:\n");
@@ -176,34 +175,19 @@ guest_t &guest_t::modify_information() {
                 }
                 if(choice == 1) {
                     printf("New password: ");
-                    scanf(" %s", get.password);
+                    scanf(" %s", v.password);
                 }
                 else if(choice == 2) {
                     printf("New date of birth (in dd/mm/yyyy):");
-                    get.dob.add();
+                    v.dob.add();
                 }
             } while(choice != 0);
 
-            *this = get;
+            *this = v;
         }
-        all_guests.push_back(get);
-    }
-    inp.close();
-    if(!inp.good()) {
-        printf("Error reading file: %s\n", "guest_account.dat");
     }
 
-    // renew the file
-    ofstream outp(file_guest, ios::binary | ios::out | ios::trunc);
-
-    for(const auto &g : all_guests) {
-        outp.write((char *) &g, sizeof(guest_t));
-    }
-
-    outp.close();
-    if(!outp.good()) {
-        printf("Error writing file: %s\n", "manager_account.dat");
-    }
+    write_file(all_guests, FILE_TRUNCATE);
 
     return *this;
 }
@@ -245,52 +229,39 @@ void guest_t::order() {
 
     printf("Enter product you want to order: ");
     scanf(" %s", ordered.name);
+    printf("Enter quantity: ");
+    scanf("%u", &ordered.quantity);
 
-    for(auto &v : all_drinks) {
-        if(strcmp(v.name, ordered.name) == 0) {
-            printf("Enter quantity: ");
-            scanf("%u", &ordered.quantity);
-
-            if(v.quantity >= ordered.quantity) {
-                v.quantity -= ordered.quantity;
-            }
-            else {
-                do {
-                    printf("Sorry. We only have %u %s left.\n",
-                            v.quantity, v.name);
-                    printf("Enter new quantity: ");
-                    scanf("%u", &ordered.quantity);
-                } while(v.quantity < ordered.quantity);
-            }
-
-            break;
-        }
-    }
-    for(auto &v : all_foods) {
-        if(strcmp(v.name, ordered.name) == 0) {
-            printf("Enter quantity: ");
-            scanf("%u", &ordered.quantity);
-
-            if(v.quantity >= ordered.quantity) {
-                v.quantity -= ordered.quantity;
-            }
-            else {
-                do {
-                    printf("Sorry. We only have %u %s left.",
-                            v.quantity, v.name);
-                    printf("Enter new quantity: ");
-                    scanf("%u", &ordered.quantity);
-                } while(v.quantity < ordered.quantity);
-            }
-            
-            break;
-        }
-    }
-    
-    write_new_file(all_drinks, COFFEE_DRINK);
-    write_new_file(all_foods, COFFEE_FOOD);
+    order_food_or_drink(all_drinks, ordered, COFFEE_DRINK);
+    order_food_or_drink(all_foods, ordered, COFFEE_FOOD);
 }
 
+
+void guest_t::order_food_or_drink(vector<product_t> &src, 
+                                product_t &ordered,
+                                COFFEE_PRODUCT type) {
+
+    for(auto &v : src) {
+        if(strcmp(v.name, ordered.name) == 0) {
+            while(v.quantity < ordered.quantity) {
+                printf("Sorry. We only have %u %s left.\n",
+                        v.quantity, v.name);
+                printf("1. Enter new quantity\n0. Quit\n");
+                int choice;
+                cin >> choice;
+                if(choice == 0) {
+                    return;
+                }
+                printf("New quantity: ");
+                scanf("%u", &ordered.quantity);
+            }
+            v.quantity -= ordered.quantity;
+            break;
+        }
+    }
+
+    write_file(src, type, FILE_TRUNCATE);
+}
 
 void guest_t::menu() {
     int choice;

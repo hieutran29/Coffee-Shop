@@ -20,13 +20,15 @@ enum COFFEE_PRODUCT {
 class product_t;
 
 bool existed_in_file(const product_t &, COFFEE_PRODUCT);
-void write_new_file(const vector<product_t> &, COFFEE_PRODUCT);
+void write_file(const vector<product_t> &, COFFEE_PRODUCT, FILE_OPERATION);
 void print_product(COFFEE_PRODUCT);
 std::vector<product_t> get_all_product(COFFEE_PRODUCT);
 
 class product_t {
     friend class manager;
     friend bool existed_in_file(const product_t &, COFFEE_PRODUCT);
+    friend void write_file(const vector<product_t> &, 
+                            COFFEE_PRODUCT, FILE_OPERATION);
     friend void print_product(COFFEE_PRODUCT);
     friend std::vector<product_t> get_all_product(COFFEE_PRODUCT);
 
